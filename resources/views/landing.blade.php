@@ -35,7 +35,7 @@
 <body>
 <header class="l-top">
     <div class="l-wrap l-top-in">
-        <a href="{{ url('/') }}"><picture><source srcset="{{ asset('images/promise-logo-dark.svg') }}" media="(prefers-color-scheme: dark)"><img src="{{ asset('images/promise-logo.svg') }}" alt="Promise" class="l-logo"></picture></a>
+        <a href="{{ url('/') }}"><picture><source srcset="{{ asset('images/promise-logo-dark.svg') }}?v=2" media="(prefers-color-scheme: dark)"><img src="{{ asset('images/promise-logo.svg') }}?v=2" alt="Promise" class="l-logo"></picture></a>
         <nav class="l-nav" aria-label="Navigasi utama">
             <a href="#masalah">Kenapa perlu</a>
             <a href="#pmbok">PMBOK</a>

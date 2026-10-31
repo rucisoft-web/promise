@@ -32,8 +32,8 @@ class AdminPanelProvider extends PanelProvider
             ->profile(isSimple: false)
             ->userMenuItems(['profile' => fn (\Filament\Actions\Action $action) => $action->visible(fn (): bool => ! auth()->user()?->isGuestVisitor())])
             ->brandName(config('promise.brand_name'))
-            ->brandLogo(asset('images/promise-logo.svg'))
-            ->darkModeBrandLogo(asset('images/promise-logo-dark.svg'))
+            ->brandLogo(asset('images/promise-logo.svg').'?v=2')
+            ->darkModeBrandLogo(asset('images/promise-logo-dark.svg').'?v=2')
             ->brandLogoHeight('2.2rem')
             ->favicon(asset('images/favicon.svg'))
             ->colors([
