@@ -55,6 +55,9 @@ class Pmbok
         'perbankan' => 'Perbankan Digital',
         'teknologi' => 'Operasional & Teknologi',
         'keberlanjutan' => 'Keuangan Berkelanjutan',
+        'properti' => 'Pengembangan Properti',
+        'ritel' => 'Ritel & Mal',
+        'perhotelan' => 'Perhotelan',
         'korporat' => 'Korporat & Pendukung',
     ];
 

@@ -19,7 +19,7 @@ class DemoPagesTest extends TestCase
         Storage::fake(Document::DISK);
         $this->seed(DatabaseSeeder::class);
 
-        $this->assertSame(29, Project::count());
+        $this->assertSame(41, Project::count());
         $this->assertSame(12, Project::where('code', 'like', 'SMB-%')->count());
         $this->assertSame(0, WbsItem::where('level', '>', 2)->count());
         $this->assertGreaterThan(250, WbsItem::where('level', 2)->count());
@@ -47,11 +47,13 @@ class DemoPagesTest extends TestCase
         $this->get('/admin/jadwal?proyek='.$p->id)->assertOk()->assertSee($p->name);
 
         // Data demo terpisah per perusahaan
-        $this->assertSame(17, Project::where('company', 'medco')->count());
-        $this->assertSame(12, Project::where('company', 'smbc')->count());
+        $this->assertSame(17, Project::withoutGlobalScopes()->where('company', 'medco')->count());
+        $this->assertSame(12, Project::withoutGlobalScopes()->where('company', 'smbc')->count());
+        $this->assertSame(12, Project::withoutGlobalScopes()->where('company', 'pakuwon')->count());
         auth()->logout();
-        $this->get('/admin/login')->assertSee('Pilih data demo perusahaan')->assertSee('PT Bank SMBC Indonesia Tbk')->assertSee('perusahaan=medco', false);
-        $this->get('/')->assertSee('perusahaan=smbc', false);
+        $this->get('/admin/login')->assertSee('Pilih data demo perusahaan')->assertSee('PT Bank SMBC Indonesia Tbk')->assertSee('PT Pakuwon Jati Tbk')
+            ->assertSee('data-demo-card="pakuwon"', false)->assertSee('Klik salah satu kartu perusahaan');
+        $this->get('/')->assertSee('data-demo-card="smbc"', false);
         $this->get('/masuk-tamu?perusahaan=smbc')->assertRedirect('/admin');
         $this->get('/admin/proyek')->assertOk()->assertSee('SMB-CBS')->assertDontSee('NTN-FRL')
             ->assertSee('pm-company', false)->assertSee('PT Bank SMBC Indonesia Tbk');
@@ -62,8 +64,13 @@ class DemoPagesTest extends TestCase
         $this->get('/admin/proyek/'.$p->id)->assertNotFound();
         $this->from('/admin/risiko')->get('/perusahaan-demo/medco')->assertRedirect(url('/admin/risiko'));
         $this->get('/admin/proyek')->assertSee('NTN-FRL')->assertDontSee('SMB-CBS')->assertSee('PT Medco Energi Internasional Tbk');
-        $this->get('/perusahaan-demo/semua');
-        $this->get('/admin/proyek')->assertSee('NTN-FRL')->assertSee('SMB-CBS');
+        $this->get('/perusahaan-demo/semua')->assertNotFound();
+        $this->get('/masuk-tamu?perusahaan=pakuwon')->assertRedirect('/admin');
+        $this->get('/admin/proyek')->assertSee('PWN-SMG')->assertDontSee('NTN-FRL')->assertDontSee('SMB-CBS')->assertSee('PT Pakuwon Jati Tbk');
+        $this->get('/admin')->assertOk()->assertSee('PT Pakuwon Jati Tbk');
+        // Tanpa pilihan: tetap satu perusahaan (tidak ada tampilan gabungan)
+        $this->get('/masuk-tamu');
+        $this->get('/admin/proyek')->assertSee('NTN-FRL')->assertDontSee('SMB-CBS')->assertDontSee('PWN-SMG');
     }
 
     public function test_anggota_tidak_bisa_membuka_pengguna(): void

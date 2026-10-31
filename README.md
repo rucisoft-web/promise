@@ -12,11 +12,11 @@ Sistem informasi manajemen proyek berbasis web yang mengacu pada **PMBOK® Guide
 - **Pusat Dokumen**: unggah PDF, DOC/DOCX, XLS/XLSX, PPT/PPTX, PNG, JPG (maks. 20 MB) ke proyek, tugas WBS, risiko, isu, perubahan, mutu, kontrak, laporan status; disimpan privat, unduh/pratinjau setelah login.
 - Peran: Administrator, PMO, Manajer Proyek (hanya proyeknya), Anggota Tim, Eksekutif (lihat), Tamu (demo, hanya lihat).
 - Halaman depan promosi dan tombol **Masuk sebagai Tamu** (`PROMISE_GUEST_LOGIN=true`).
-- Dua data demo dengan WBS level 2: 17 proyek bertema MedcoEnergi 2025 dan 12 proyek bertema SMBC Indonesia 2025 (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, PIKK, ESG).
-- Data demo terpisah per perusahaan: kartu pilihan **MedcoEnergi / SMBC Indonesia** di halaman login dan halaman depan, teks kecil nama perusahaan di setiap halaman panel, dan tautan **Ganti** untuk berpindah perusahaan atau melihat semua. Untuk pemakaian sendiri tanpa data demo, isi `PROMISE_COMPANY_NAME` agar nama perusahaan Anda tampil di setiap halaman.
+- Tiga data demo dengan WBS level 2: 17 proyek bertema MedcoEnergi 2025, 12 proyek bertema SMBC Indonesia 2025 (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, PIKK, ESG), dan 12 proyek bertema Pakuwon Jati 2025 (Pakuwon Mall Semarang, Pakuwon Mall Phase 5, Kota Kasablanka Phase 4, Pakuwon Nusantara IKN, hotel baru, hunian, modernisasi aset).
+- Data demo terpisah per perusahaan, tanpa tampilan gabungan: di halaman login dan halaman depan pengunjung memilih kartu **MedcoEnergi / SMBC Indonesia / Pakuwon Jati** dulu, lalu **Masuk sebagai Tamu** langsung ke dasbor perusahaan itu. Teks kecil nama perusahaan tampil di setiap halaman panel dengan tautan **Ganti ke** perusahaan lain. Untuk pemakaian sendiri tanpa data demo, isi `PROMISE_COMPANY_NAME` agar nama perusahaan Anda tampil di setiap halaman.
 - Dasbor yang bisa diklik menuju detail, dan tombol **Bantuan** di setiap layar (konsep PMBOK, data yang diisi, contoh, tangkapan layar).
 
-> **DATA DEMO, bukan proyek yang sesungguhnya.** Data contoh hanya untuk keperluan pembelajaran dan peragaan fitur; jadwal, anggaran, progres, risiko, vendor, personel, dan dokumen adalah simulasi, bukan data resmi PT Medco Energi Internasional Tbk maupun PT Bank SMBC Indonesia Tbk. Peringatan ini tampil otomatis di aplikasi selama data demo terpasang.
+> **DATA DEMO, bukan proyek yang sesungguhnya.** Data contoh hanya untuk keperluan pembelajaran dan peragaan fitur; jadwal, anggaran, progres, risiko, vendor, personel, dan dokumen adalah simulasi, bukan data resmi PT Medco Energi Internasional Tbk, PT Bank SMBC Indonesia Tbk, maupun PT Pakuwon Jati Tbk. Peringatan ini tampil otomatis di aplikasi selama data demo terpasang.
 
 ## Teknologi
 

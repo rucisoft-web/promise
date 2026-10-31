@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Support\DemoCompany;
 use Illuminate\Http\Request;
 
-/** Ganti perusahaan data demo yang ditampilkan (medco, smbc, atau semua). */
+/** Ganti perusahaan data demo yang ditampilkan (selalu satu perusahaan). */
 class DemoCompanyController extends Controller
 {
     public function __invoke(Request $request, string $company)
     {
-        abort_unless($company === 'semua' || DemoCompany::valid($company), 404);
-        DemoCompany::set($company === 'semua' ? null : $company);
+        abort_unless(isset(DemoCompany::available()[$company]), 404);
+        DemoCompany::set($company);
 
         // Kembali ke halaman daftar sebelumnya; halaman satu rekaman bisa milik perusahaan lain
         $admin = url('/admin');

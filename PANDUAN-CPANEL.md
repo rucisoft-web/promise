@@ -86,7 +86,7 @@ PROMISE_STATUS_DATE=
 PROMISE_ADMIN_EMAIL=admin@domainanda.com
 PROMISE_ADMIN_PASSWORD=
 
-# data demo (MedcoEnergi & SMBC Indonesia): biarkan false untuk pemakaian sungguhan
+# data demo (MedcoEnergi, SMBC Indonesia, Pakuwon Jati): biarkan false untuk pemakaian sungguhan
 PROMISE_SEED_DEMO=false
 # situs demo/promosi: tombol "Masuk sebagai Tamu" (hanya lihat), lihat bagian 8
 PROMISE_GUEST_LOGIN=false
@@ -142,29 +142,31 @@ Dokumen tersimpan privat di `promise/storage/app/private/dokumen` dan hanya bisa
 
 ### Data demo (untuk presentasi)
 
-Tersedia dua portofolio contoh, masing-masing dengan WBS level 2, keterkaitan tugas FS/SS/FF/SF, Earned Value bulanan, risiko, kontrak, lembar waktu, dan dokumen contoh:
+Tersedia tiga perusahaan contoh, masing-masing dengan WBS level 2, keterkaitan tugas FS/SS/FF/SF, Earned Value bulanan, risiko, kontrak, lembar waktu, dan dokumen contoh:
 
 1. **MedcoEnergi** (`DemoMedcoSeeder`): 17 proyek hulu migas, ketenagalistrikan, tambang, dan transformasi korporat.
 2. **SMBC Indonesia** (`DemoSmbcSeeder`): 12 proyek perbankan, yaitu peningkatan core banking, AI generatif, adopsi cloud, XDR & WAF, konsolidasi aplikasi, kualitas data laporan, pusat data pemulihan (DR), fitur Jenius, TOUCHBIZ, penguatan peran PIKK, pembiayaan berkelanjutan, dan transformasi digital HR. Anggaran ditampilkan dalam setara US$ agar bisa dibandingkan dalam satu portofolio.
+3. **Pakuwon Jati** (`DemoPakuwonSeeder`): 12 proyek properti dan perhotelan, yaitu Pakuwon Mall Semarang Tahap 1, extension Pakuwon Mall Phase 5, Kota Kasablanka Phase 4, Superblok Pakuwon Nusantara & Four Points IKN, Hotel Fairfield Bekasi, Aloft Surabaya, Four Points Bekasi, Pakuwon Residence Bekasi, klaster Grand Pakuwon, Park Shanghai, upgrade Tunjungan Plaza, dan digitalisasi operasional.
 
-Muat keduanya dengan `PROMISE_SEED_DEMO=true` sebelum `migrate --seed`, atau satu per satu:
+Muat ketiganya dengan `PROMISE_SEED_DEMO=true` sebelum `migrate --seed`, atau satu per satu:
 
 ```bash
 cd ~/promise
 php artisan db:seed --class=DemoMedcoSeeder --force
 php artisan db:seed --class=DemoSmbcSeeder --force
+php artisan db:seed --class=DemoPakuwonSeeder --force
 php artisan optimize:clear && php artisan optimize
 ```
 
-Setiap perintah dilewati bila demo tersebut sudah ada. Akun demo SMBC memakai awalan `smbc.` (mis. `smbc.pmo@contoh.local`). Akun demo memakai domain `@contoh.local` dengan kata sandi `Promise-2026!`, jadi **jangan memuat demo di situs sungguhan** yang bisa diakses publik.
+Setiap perintah dilewati bila demo tersebut sudah ada. Akun demo SMBC memakai awalan `smbc.` (mis. `smbc.pmo@contoh.local`) dan Pakuwon memakai awalan `pwn.`. Akun demo memakai domain `@contoh.local` dengan kata sandi `Promise-2026!`, jadi **jangan memuat demo di situs sungguhan** yang bisa diakses publik.
 
-> **Peringatan: DATA DEMO, bukan proyek yang sesungguhnya.** Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk dan PT Bank SMBC Indonesia Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan tersebut. Selama data demo terpasang, peringatan ini tampil otomatis di setiap halaman aplikasi, halaman login, halaman depan, dan di setiap dokumen contoh (PDF, XLSX, DOCX, JPG).
+> **Peringatan: DATA DEMO, bukan proyek yang sesungguhnya.** Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk, PT Bank SMBC Indonesia Tbk, dan PT Pakuwon Jati Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan tersebut. Selama data demo terpasang, peringatan ini tampil otomatis di setiap halaman aplikasi, halaman login, halaman depan, dan di setiap dokumen contoh (PDF, XLSX, DOCX, JPG).
 
 ### Situs demo untuk pengunjung (akses Tamu)
 
 Isi `PROMISE_GUEST_LOGIN=true` lalu `php artisan optimize`. Alamat utama menjadi **halaman depan** (masalah, 9 area pengetahuan PMBOK, fitur bergambar, daftar proyek demo, tanya jawab, tombol WhatsApp dari `PROMISE_WHATSAPP`), dan halaman login menampilkan tombol **Masuk sebagai Tamu**. Akun Tamu (`PROMISE_GUEST_EMAIL`, dibuat otomatis) hanya bisa melihat: tombol buat/ubah/hapus tersembunyi, menu Pengguna tertutup, dan setiap penyimpanan data ditolak sistem. Tamu tetap bisa membuka dan mengunduh dokumen demo. Untuk mematikan, ubah menjadi `false` lalu `php artisan optimize`.
 
-**Data demo per perusahaan.** Di dekat tombol Masuk sebagai Tamu ada kartu pilihan **PT Medco Energi Internasional Tbk** dan **PT Bank SMBC Indonesia Tbk**. Kartu membuka data perusahaan itu saja (proyek, portofolio, WBS, risiko, SDM, vendor, kontrak, dokumen); tombol oranye Masuk sebagai Tamu menampilkan semuanya. Di bagian atas setiap halaman ada teks kecil nama perusahaan dengan tautan **Ganti** / **Semua**. Bila memperbarui dari versi sebelumnya, cukup jalankan `php artisan migrate --force` karena label perusahaan data demo lama diisi otomatis. Untuk instalasi tanpa data demo, isi `PROMISE_COMPANY_NAME=Nama Perusahaan Anda` agar namanya tampil di setiap halaman.
+**Data demo per perusahaan.** Ada tiga data demo yang terpisah: **PT Medco Energi Internasional Tbk**, **PT Bank SMBC Indonesia Tbk**, dan **PT Pakuwon Jati Tbk**. Di halaman login dan halaman depan, pengunjung mengklik kartu perusahaan dulu, lalu tombol **Masuk sebagai Tamu** aktif dan dasbor langsung menampilkan data perusahaan itu (proyek, portofolio, WBS, risiko, SDM, vendor, kontrak, dokumen). Tidak ada tampilan gabungan. Di bagian atas setiap halaman ada teks kecil nama perusahaan dengan tautan **Ganti ke** perusahaan lain. Bila memperbarui dari versi sebelumnya: `php artisan migrate --force`, lalu `php artisan db:seed --class=DemoPakuwonSeeder --force` untuk menambah data Pakuwon, lalu `php artisan optimize`. Untuk instalasi tanpa data demo, isi `PROMISE_COMPANY_NAME=Nama Perusahaan Anda` agar namanya tampil di setiap halaman.
 
 ## 9. Memperbarui program
 

@@ -12,12 +12,12 @@ class DemoData
 {
     public const TITLE = 'DATA DEMO, bukan proyek yang sesungguhnya.';
 
-    public const NOTICE = 'Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk dan PT Bank SMBC Indonesia Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan tersebut.';
+    public const NOTICE = 'Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk, PT Bank SMBC Indonesia Tbk, dan PT Pakuwon Jati Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan tersebut.';
 
     public const SHORT = 'DATA DEMO - bukan proyek yang sesungguhnya, hanya untuk keperluan pembelajaran.';
 
     /** Kode proyek penanda tiap demo (DemoMedcoSeeder, DemoSmbcSeeder) */
-    public const MARKER_CODES = ['NTN-FRL', 'SMB-CBS'];
+    public const MARKER_CODES = ['NTN-FRL', 'SMB-CBS', 'PWN-SMG'];
 
     public static function present(): bool
     {

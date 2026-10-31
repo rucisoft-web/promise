@@ -19,8 +19,8 @@ class GuestLoginController extends Controller
         }
         Auth::login(GuestMode::user());
         $request->session()->regenerate();
-        // Kartu pilihan data demo: ?perusahaan=medco|smbc (kosong = semua perusahaan demo)
-        DemoCompany::set($request->query('perusahaan'));
+        // Kartu pilihan data demo: ?perusahaan=medco|smbc|pakuwon; dasbor langsung menampilkan perusahaan itu
+        DemoCompany::set(DemoCompany::resolve($request->query('perusahaan')));
 
         return redirect('/admin');
     }

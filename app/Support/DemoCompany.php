@@ -33,6 +33,14 @@ class DemoCompany
             'color' => '#2E7D4F',
             'summary' => 'Core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, dan keuangan berkelanjutan.',
         ],
+        'pakuwon' => [
+            'name' => 'PT Pakuwon Jati Tbk',
+            'short' => 'Pakuwon Jati',
+            'sector' => 'Properti & perhotelan',
+            'marker' => 'PWN-SMG',
+            'color' => '#B4462B',
+            'summary' => 'Superblok & mal (Pakuwon Mall Semarang, Kota Kasablanka), hotel baru, hunian, dan modernisasi aset.',
+        ],
     ];
 
     protected static int $bypass = 0;
@@ -42,7 +50,11 @@ class DemoCompany
         return $key !== null && isset(self::COMPANIES[$key]);
     }
 
-    /** Perusahaan yang sedang dipilih pada sesi ini, atau null (semua). */
+    /**
+     * Perusahaan yang sedang ditampilkan. Data demo selalu tersaring ke satu perusahaan (tidak ada tampilan
+     * gabungan): bila belum dipilih, dipakai perusahaan demo pertama. Null hanya bila tidak ada data demo
+     * atau di luar permintaan web (konsol, antrean).
+     */
     public static function current(): ?string
     {
         if (static::$bypass > 0 || ! app()->bound('request')) {
@@ -53,14 +65,26 @@ class DemoCompany
             return null;
         }
         $key = $request->session()->get(self::SESSION);
+        $available = static::available();
+        if (isset($available[$key])) {
+            return $key;
+        }
 
-        return static::valid($key) ? $key : null;
+        return array_key_first($available);
     }
 
     public static function set(?string $key): void
     {
         $session = request()->session();
         static::valid($key) ? $session->put(self::SESSION, $key) : $session->forget(self::SESSION);
+    }
+
+    /** Pilihan sah dari permintaan, atau perusahaan demo pertama. */
+    public static function resolve(?string $key): ?string
+    {
+        $available = static::available();
+
+        return isset($available[$key]) ? $key : array_key_first($available);
     }
 
     public static function name(?string $key = null): ?string

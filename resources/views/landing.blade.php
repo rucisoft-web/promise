@@ -30,7 +30,7 @@
     <meta property="og:description" content="Portofolio, jadwal, biaya, risiko, dan dokumen proyek dalam satu sistem berbasis PMBOK.">
     <meta property="og:image" content="{{ $img('dasbor') }}">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=4">
 </head>
 <body>
 <header class="l-top">
@@ -55,13 +55,15 @@
                 <h1>Semua proyek, satu sumber kebenaran.</h1>
                 <p class="l-lead"><b>Promise</b> (Project Management Information System) mengelola portofolio dan proyek mengikuti <b>PMBOK® Guide</b> dari Project Management Institute: piagam, WBS, jadwal Gantt dengan keterkaitan FS/SS/FF/SF, Earned Value, risiko, sumber daya, lembar waktu, pengadaan, dan pusat dokumen digital.</p>
                 @if (count(\App\Support\DemoCompany::available()))
-                    <p class="l-pick">Pilih data demo, lalu masuk sebagai Tamu:</p>
-                    <x-promise.demo-cards variant="landing" />
+                    <p class="l-pick">1. Pilih perusahaan &nbsp;·&nbsp; 2. Masuk sebagai Tamu</p>
+                    <x-promise.demo-cards variant="hero" />
+                    <div class="l-actions"><a href="#fitur" class="l-btn">Lihat fiturnya</a></div>
+                @else
+                    <div class="l-actions">
+                        <a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a>
+                        <a href="#fitur" class="l-btn">Lihat fiturnya</a>
+                    </div>
                 @endif
-                <div class="l-actions">
-                    <a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a>
-                    <a href="#fitur" class="l-btn">Lihat fiturnya</a>
-                </div>
                 <div class="l-warn"><span><b>{{ \App\Support\DemoData::TITLE }}</b> Proyek yang ditampilkan adalah contoh untuk keperluan pembelajaran, bukan data resmi perusahaan. <a href="#data-demo">Selengkapnya</a></span></div>
                 <div class="l-stats">
                     <div class="l-stat"><b>{{ $stats['projects'] }}</b><span>proyek contoh</span></div>
@@ -148,8 +150,8 @@
     <section class="l-section l-alt" id="data-demo">
         <div class="l-wrap">
             <span class="l-eyebrow">Data demo</span>
-            <h2>Dua portofolio contoh: {{ $cases->count() }} proyek energi, pertambangan, dan perbankan</h2>
-            <p class="l-lead">Nama dan gambaran proyek disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk (pengembangan lapangan migas, pembangkit, tambang) dan PT Bank SMBC Indonesia Tbk (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, keuangan berkelanjutan), khusus untuk pembelajaran. Pilih kartu perusahaan untuk menjelajah datanya tanpa akun, atau klik "Masuk sebagai Tamu" untuk melihat semuanya.</p>
+            <h2>Tiga perusahaan contoh: {{ $cases->count() }} proyek energi, perbankan, dan properti</h2>
+            <p class="l-lead">Nama dan gambaran proyek disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk (pengembangan lapangan migas, pembangkit, tambang) PT Bank SMBC Indonesia Tbk (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, keuangan berkelanjutan), dan PT Pakuwon Jati Tbk (superblok & mal, hotel, hunian, modernisasi aset), khusus untuk pembelajaran. Data setiap perusahaan terpisah: pilih kartu perusahaan, lalu klik "Masuk sebagai Tamu" untuk menjelajah datanya tanpa akun.</p>
             @foreach ($caseGroups as $group => $list)
                 <h3 class="l-cases-h">{{ $group }} <small>({{ $list->count() }} proyek)</small></h3>
                 <div class="l-cases">
@@ -160,10 +162,11 @@
             @endforeach
             <div class="l-warn"><span><b>{{ \App\Support\DemoData::TITLE }}</b> {{ \App\Support\DemoData::NOTICE }} Mode Tamu hanya melihat, data tidak bisa diubah.</span></div>
             @if (count(\App\Support\DemoCompany::available()))
-                <p class="l-pick">Pilih data demo yang ingin dijelajahi:</p>
+                <p class="l-pick">1. Pilih perusahaan &nbsp;·&nbsp; 2. Masuk sebagai Tamu</p>
                 <x-promise.demo-cards variant="landing" />
+            @else
+                <div class="l-actions"><a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a></div>
             @endif
-            <div class="l-actions"><a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a></div>
         </div>
     </section>
 
