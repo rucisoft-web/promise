@@ -8,7 +8,7 @@ class BudgetVsEacChart extends BaseChart
 {
     protected static ?int $sort = 6;
 
-    protected ?string $heading = 'Anggaran (BAC) vs perkiraan akhir (EAC) vs aktual (AC), US$ juta';
+    protected ?string $heading = 'Anggaran (BAC) vs perkiraan akhir (EAC) vs aktual (AC), Rp miliar';
 
     protected int|string|array $columnSpan = 'full';
 
@@ -23,7 +23,7 @@ class BudgetVsEacChart extends BaseChart
     {
         $ps = A::active()->sortByDesc(fn ($p) => $p->evm()['bac'])->values();
         $urls = $ps->map(fn ($p) => self::projectUrl($p->id))->all();
-        $m = fn ($k) => $ps->map(fn ($p) => round($p->evm()[$k] / 1e6, 2))->all();
+        $m = fn ($k) => $ps->map(fn ($p) => \App\Support\Fmt::chart($p->evm()[$k]))->all();
 
         return [
             'labels' => $ps->pluck('code')->all(),

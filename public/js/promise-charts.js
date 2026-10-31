@@ -12,3 +12,11 @@ window.filamentChartJsPlugins.push({
         if (e.type === 'click' && url) window.location.href = url
     },
 })
+
+// Format angka Indonesia (60.000; 1,25) pada sumbu dan tooltip
+window.filamentChartJsPlugins.push({
+    id: 'promiseLocale',
+    beforeInit(chart) {
+        chart.options.locale = 'id-ID'
+    },
+})

@@ -143,7 +143,7 @@ class Templates
             ['Kecelakaan kerja saat aktivitas kritis', 'hsse', 'Pekerjaan di ketinggian, angkat berat, simultaneous operations', 2, 5, 'mitigasi', 'Permit to work, JSA, SIMOPS plan, audit keselamatan mingguan'],
             ['Perubahan regulasi TKDN', 'regulasi', 'Revisi ketentuan kandungan dalam negeri', 2, 3, 'terima', 'Pantau regulasi, siapkan opsi pemasok lokal'],
             ['Kekurangan tenaga ahli commissioning', 'organisasi', 'Persaingan SDM antarproyek', 3, 3, 'mitigasi', 'Kontrak vendor representatif lebih awal, pelatihan personel internal'],
-            ['Fluktuasi kurs Rupiah terhadap US$', 'keuangan', 'Sebagian biaya dalam Rupiah', 3, 2, 'terima', 'Lindung nilai alami dari penjualan US$'],
+            ['Fluktuasi kurs Rupiah terhadap dolar AS', 'keuangan', 'Sebagian biaya dalam Rupiah', 3, 2, 'terima', 'Lindung nilai alami dari penjualan dalam dolar AS'],
         ];
         $specific = match ($type) {
             'offshore' => [

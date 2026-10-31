@@ -78,8 +78,6 @@ DB_PASSWORD="kata-sandi-database"
 
 SESSION_SECURE_COOKIE=true
 
-# mata uang tampilan anggaran
-PROMISE_CURRENCY="US$"
 # tanggal status Earned Value (YYYY-MM-DD); kosongkan = hari ini
 PROMISE_STATUS_DATE=
 # akun admin awal (opsional; bisa juga lewat promise:create-admin)
@@ -145,7 +143,7 @@ Dokumen tersimpan privat di `promise/storage/app/private/dokumen` dan hanya bisa
 Tersedia tiga perusahaan contoh, masing-masing dengan WBS level 2, keterkaitan tugas FS/SS/FF/SF, Earned Value bulanan, risiko, kontrak, lembar waktu, dan dokumen contoh:
 
 1. **MedcoEnergi** (`DemoMedcoSeeder`): 17 proyek hulu migas, ketenagalistrikan, tambang, dan transformasi korporat.
-2. **SMBC Indonesia** (`DemoSmbcSeeder`): 12 proyek perbankan, yaitu peningkatan core banking, AI generatif, adopsi cloud, XDR & WAF, konsolidasi aplikasi, kualitas data laporan, pusat data pemulihan (DR), fitur Jenius, TOUCHBIZ, penguatan peran PIKK, pembiayaan berkelanjutan, dan transformasi digital HR. Anggaran ditampilkan dalam setara US$ agar bisa dibandingkan dalam satu portofolio.
+2. **SMBC Indonesia** (`DemoSmbcSeeder`): 12 proyek perbankan, yaitu peningkatan core banking, AI generatif, adopsi cloud, XDR & WAF, konsolidasi aplikasi, kualitas data laporan, pusat data pemulihan (DR), fitur Jenius, TOUCHBIZ, penguatan peran PIKK, pembiayaan berkelanjutan, dan transformasi digital HR. 
 3. **Pakuwon Jati** (`DemoPakuwonSeeder`): 12 proyek properti dan perhotelan, yaitu Pakuwon Mall Semarang Tahap 1, extension Pakuwon Mall Phase 5, Kota Kasablanka Phase 4, Superblok Pakuwon Nusantara & Four Points IKN, Hotel Fairfield Bekasi, Aloft Surabaya, Four Points Bekasi, Pakuwon Residence Bekasi, klaster Grand Pakuwon, Park Shanghai, upgrade Tunjungan Plaza, dan digitalisasi operasional.
 
 Muat ketiganya dengan `PROMISE_SEED_DEMO=true` sebelum `migrate --seed`, atau satu per satu:
@@ -165,6 +163,8 @@ Setiap perintah dilewati bila demo tersebut sudah ada. Akun demo SMBC memakai aw
 ### Situs demo untuk pengunjung (akses Tamu)
 
 Isi `PROMISE_GUEST_LOGIN=true` lalu `php artisan optimize`. Alamat utama menjadi **halaman depan** (masalah, 9 area pengetahuan PMBOK, fitur bergambar, daftar proyek demo, tanya jawab, tombol WhatsApp dari `PROMISE_WHATSAPP`), dan halaman login menampilkan tombol **Masuk sebagai Tamu**. Akun Tamu (`PROMISE_GUEST_EMAIL`, dibuat otomatis) hanya bisa melihat: tombol buat/ubah/hapus tersembunyi, menu Pengguna tertutup, dan setiap penyimpanan data ditolak sistem. Tamu tetap bisa membuka dan mengunduh dokumen demo. Untuk mematikan, ubah menjadi `false` lalu `php artisan optimize`.
+
+**Mata uang tunggal Rupiah (IDR).** Semua nilai uang (anggaran, Earned Value, kontrak, risiko, perubahan, tarif SDM) disimpan dan ditampilkan dalam Rupiah: `Rp 350 jt`, `Rp 12,5 M` (miliar), `Rp 6,93 T` (triliun); grafik memakai satuan Rp miliar. Data demo disusun dari laporan tahunan dan dikonversi dengan kurs asumsi Rp 16.500 per US$. Saat memperbarui dari versi lama, `php artisan migrate --force` mengonversi data demo yang sudah terpasang sekali saja; data milik Anda sendiri tidak diubah.
 
 **Data demo per perusahaan.** Ada tiga data demo yang terpisah: **PT Medco Energi Internasional Tbk**, **PT Bank SMBC Indonesia Tbk**, dan **PT Pakuwon Jati Tbk**. Di halaman login dan halaman depan, pengunjung mengklik kartu perusahaan dulu, lalu tombol **Masuk sebagai Tamu** aktif dan dasbor langsung menampilkan data perusahaan itu (proyek, portofolio, WBS, risiko, SDM, vendor, kontrak, dokumen). Tidak ada tampilan gabungan. Di bagian atas setiap halaman ada teks kecil nama perusahaan dengan tautan **Ganti ke** perusahaan lain. Bila memperbarui dari versi sebelumnya: `php artisan migrate --force`, lalu `php artisan db:seed --class=DemoPakuwonSeeder --force` untuk menambah data Pakuwon, lalu `php artisan optimize`. Untuk instalasi tanpa data demo, isi `PROMISE_COMPANY_NAME=Nama Perusahaan Anda` agar namanya tampil di setiap halaman.
 

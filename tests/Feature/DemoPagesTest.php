@@ -33,7 +33,10 @@ class DemoPagesTest extends TestCase
         $this->actingAs(\App\Models\User::where('role', 'admin')->first());
         $this->get('/admin/risiko')->assertSee('pm-help-btn', false)->assertSee('Register Risiko')->assertSee('Probabilitas &amp; Dampak', false);
         $this->get('/admin/panduan')->assertSee('Panduan per layar')->assertSee('Keterkaitan Tugas (FS/SS/FF/SF)');
-        $this->get('/admin')->assertSee(DemoData::TITLE)->assertSee('hanya untuk keperluan pembelajaran');
+        $this->get('/admin')->assertSee(DemoData::TITLE)->assertSee('hanya untuk keperluan pembelajaran')
+            ->assertSee('Rp ')->assertSee('Rp miliar')->assertDontSee('US$');
+        $this->get('/admin/earned-value')->assertSee('Rp ')->assertDontSee('US$');
+        $this->get('/admin/kontrak')->assertSee('Rp ')->assertDontSee('US$');
         $pages = ['/admin', '/admin/proyek', '/admin/proyek/create', '/admin/perubahan', '/admin/portofolio', '/admin/pelajaran', '/admin/wbs',
             '/admin/jadwal', '/admin/keterkaitan-tugas', '/admin/earned-value', '/admin/mutu', '/admin/sumber-daya', '/admin/penugasan',
             '/admin/lembar-waktu', '/admin/kapasitas', '/admin/pemangku-kepentingan', '/admin/rencana-komunikasi', '/admin/laporan-status',

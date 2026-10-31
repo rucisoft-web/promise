@@ -65,7 +65,7 @@ class Help
                 ],
                 'isian' => [],
                 'contoh' => [
-                    'SPI 0,81 dan CPI 0,92 berarti proyek baru menghasilkan 81% dari pekerjaan yang direncanakan, dan setiap US$ 1 biaya hanya menghasilkan nilai US$ 0,92.',
+                    'SPI 0,81 dan CPI 0,92 berarti proyek baru menghasilkan 81% dari pekerjaan yang direncanakan, dan setiap Rp 1.000 biaya hanya menghasilkan nilai Rp 920.',
                 ],
                 'shots' => ['dasbor.jpg' => 'Dasbor portofolio: kartu angka, kurva S, dan grafik dapat diklik.'],
             ],
@@ -112,7 +112,7 @@ class Help
                     ['Anggaran & kontinjensi', 'Anggaran (BAC) dihitung ulang dari paket kerja WBS; kontinjensi adalah cadangan risiko.'],
                 ],
                 'contoh' => [
-                    'Kode NTN-FRL · Pengembangan Lapangan Forel · Fase Eksekusi · Baseline 01/03/2024–30/09/2026 · Anggaran US$ 420 jt · Kontinjensi 8%.',
+                    'Kode NTN-FRL · Pengembangan Lapangan Forel · Fase Eksekusi · Baseline 01/03/2024–30/09/2026 · Anggaran Rp 6,93 T · Kontinjensi 8%.',
                 ],
                 'shots' => ['proyek-form.jpg' => 'Formulir proyek dengan tab Identitas, Piagam, Jadwal & Anggaran, Lampiran.'],
             ],
@@ -164,10 +164,10 @@ class Help
                     ['Kategori', 'Ruang lingkup, jadwal, biaya, mutu, atau pengadaan.'],
                     ['Perubahan yang diminta', 'Ringkas, satu kalimat.'],
                     ['Uraian & alasan', 'Latar belakang dan alternatif yang dipertimbangkan.'],
-                    ['Dampak biaya / jadwal', 'Tambahan biaya (US$) dan hari keterlambatan (negatif bila mempercepat).'],
+                    ['Dampak biaya / jadwal', 'Tambahan biaya (Rp) dan hari keterlambatan (negatif bila mempercepat).'],
                     ['Diputuskan oleh / catatan', 'Diisi CCB saat memutuskan.'],
                 ],
-                'contoh' => ['CR-004 · Penambahan 2 sumur sisipan · Dampak biaya US$ 18 jt, jadwal +45 hari · Disetujui CCB 12/06/2026.'],
+                'contoh' => ['CR-004 · Penambahan 2 sumur sisipan · Dampak biaya Rp 297 M, jadwal +45 hari · Disetujui CCB 12/06/2026.'],
                 'shots' => ['perubahan.jpg' => 'Daftar permintaan perubahan.', 'perubahan-form.jpg' => 'Formulir permintaan perubahan.'],
             ],
 
@@ -278,7 +278,7 @@ class Help
                     ['Tarif per jam', 'Untuk menghitung biaya tenaga kerja.'],
                     ['Kapasitas per minggu', 'Jam tersedia per minggu, mis. 40.'],
                 ],
-                'contoh' => ['RS-014 · Budi Santoso · Tenaga kerja · Piping Engineer · Tarif US$ 85/jam · 40 jam/minggu.'],
+                'contoh' => ['RS-014 · Budi Santoso · Tenaga kerja · Piping Engineer · Tarif Rp 1.402.500/jam · 40 jam/minggu.'],
                 'shots' => ['sumber-daya.jpg' => 'Daftar sumber daya.'],
             ],
 
@@ -376,7 +376,7 @@ class Help
                     ['Kategori', 'Teknis, HSSE, komersial, regulasi & perizinan, pengadaan & rantai pasok, eksternal/alam, organisasi & SDM, keuangan.'],
                     ['Penyebab / Dampak bila terjadi', 'Pisahkan sebab dan akibat agar respons tepat.'],
                     ['Probabilitas & Dampak (1–5)', 'Skor dihitung otomatis.'],
-                    ['Eksposur biaya', 'Perkiraan kerugian (US$) bila risiko terjadi; dipakai untuk cadangan kontinjensi.'],
+                    ['Eksposur biaya', 'Perkiraan kerugian (Rp) bila risiko terjadi; dipakai untuk cadangan kontinjensi.'],
                     ['Pemilik risiko', 'Orang yang memantau dan menjalankan respons.'],
                     ['Rencana respons', 'Tindakan konkret, biaya, dan pemicu (trigger).'],
                 ],
@@ -406,10 +406,10 @@ class Help
                 'isian' => [
                     ['Jenis kontrak', 'Lump sum, harga satuan, cost plus fee, EPCI terima jadi, atau time & material.'],
                     ['Metode pengadaan', 'Tender terbuka, tender terbatas, seleksi langsung, atau penunjukan langsung.'],
-                    ['Nilai', 'Nilai kontrak (US$).'],
+                    ['Nilai', 'Nilai kontrak (Rp).'],
                     ['Progres pekerjaan', '% fisik yang diselesaikan vendor.'],
                 ],
-                'contoh' => ['NTN-FRL/EPC-01 · PT Contoh Rekayasa · EPC · Tender terbuka · US$ 210 jt · 2024–2026 · Berjalan 62%.'],
+                'contoh' => ['NTN-FRL/EPC-01 · PT Contoh Rekayasa · EPC · Tender terbuka · Rp 3,47 T · 2024–2026 · Berjalan 62%.'],
                 'shots' => ['kontrak.jpg' => 'Daftar kontrak.', 'kontrak-form.jpg' => 'Formulir kontrak.'],
             ],
 

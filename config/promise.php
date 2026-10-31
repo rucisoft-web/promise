@@ -11,8 +11,8 @@ return [
     // Muat portofolio contoh walau APP_ENV=production
     'seed_demo' => (bool) env('PROMISE_SEED_DEMO', false),
 
-    // Mata uang tampilan anggaran proyek
-    'currency' => env('PROMISE_CURRENCY', 'US$'),
+    // Mata uang tunggal: Rupiah (IDR); lihat App\Support\Fmt::CURRENCY
+    'currency' => 'Rp',
 
     // Tanggal status (data date) untuk perhitungan Earned Value; kosong = hari ini
     'status_date' => env('PROMISE_STATUS_DATE'),

@@ -56,7 +56,7 @@ class F
 
     public static function money(string $name, string $label): TextInput
     {
-        return TextInput::make($name)->label($label)->numeric()->prefix(config('promise.currency'))->default(0);
+        return TextInput::make($name)->label($label)->numeric()->prefix(\App\Support\Fmt::CURRENCY)->default(0);
     }
 
     public static function moneyColumn(string $name, string $label): TextColumn

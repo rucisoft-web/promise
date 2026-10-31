@@ -16,7 +16,7 @@
     @if (! empty($shots))
         <section><h3>Tangkapan layar</h3>
             @foreach ($shots as $file => $caption)
-                <figure class="pm-help-shot"><a href="{{ asset('images/bantuan/'.$file) }}" target="_blank" rel="noopener"><img src="{{ asset('images/bantuan/'.$file) }}" alt="{{ $caption }}" loading="lazy"></a><figcaption>{{ $caption }}</figcaption></figure>
+                <figure class="pm-help-shot"><a href="{{ asset('images/bantuan/'.$file).'?v=2' }}" target="_blank" rel="noopener"><img src="{{ asset('images/bantuan/'.$file).'?v=2' }}" alt="{{ $caption }}" loading="lazy"></a><figcaption>{{ $caption }}</figcaption></figure>
             @endforeach
         </section>
     @endif

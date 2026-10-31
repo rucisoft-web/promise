@@ -9,7 +9,7 @@ class PortfolioSCurveChart extends BaseChart
 {
     protected static ?int $sort = 2;
 
-    protected ?string $heading = 'Kurva S portofolio (Earned Value, US$ juta kumulatif)';
+    protected ?string $heading = 'Kurva S portofolio (Earned Value, Rp miliar kumulatif)';
 
     protected ?string $description = 'PV dari baseline WBS; EV dan AC dari laporan status bulanan.';
 

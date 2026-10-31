@@ -10,7 +10,7 @@ class ContractStatusChart extends BaseChart
 {
     protected static ?int $sort = 9;
 
-    protected ?string $heading = 'Nilai kontrak per status pengadaan (US$ juta)';
+    protected ?string $heading = 'Nilai kontrak per status pengadaan (Rp miliar)';
 
     protected function getType(): string
     {

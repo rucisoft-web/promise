@@ -1,5 +1,5 @@
 @php
-    $img = fn (string $n) => asset('images/kenali/'.$n.'.jpg').'?v=1';
+    $img = fn (string $n) => asset('images/kenali/'.$n.'.jpg').'?v=2';
     $guest = route('promise.guest');
     $wa = fn (string $text) => 'https://wa.me/'.$whatsapp.'?text='.rawurlencode($text);
     $areas = [

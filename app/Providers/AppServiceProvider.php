@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
         FilamentAsset::register([
             Css::make('promise', asset('css/promise.css').'?v=4'),
-            Js::make('promise-charts', asset('js/promise-charts.js').'?v=1'),
+            Js::make('promise-charts', asset('js/promise-charts.js').'?v=2'),
         ]);
 
         Password::defaults(fn () => Password::min(10)->letters()->numbers());

@@ -8,7 +8,7 @@ class ProjectCostByWbsChart extends BaseChart
 {
     public ?Project $record = null;
 
-    protected ?string $heading = 'PV, EV, AC per deliverable WBS level 1 (US$ juta)';
+    protected ?string $heading = 'PV, EV, AC per deliverable WBS level 1 (Rp miliar)';
 
     protected function getType(): string
     {
@@ -29,7 +29,7 @@ class ProjectCostByWbsChart extends BaseChart
                 'pv' => $i->planned_cost * $i->plannedPercentAt($date) / 100,
                 'ev' => $i->planned_cost * $i->percent_complete / 100,
                 default => $i->actual_cost,
-            }) / 1e6, 2);
+            }) / 1e9, 2);
         };
 
         return [

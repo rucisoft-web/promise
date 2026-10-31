@@ -9,7 +9,7 @@ class ProjectSCurveChart extends BaseChart
 {
     public ?Project $record = null;
 
-    protected ?string $heading = 'Kurva S proyek (US$ juta kumulatif)';
+    protected ?string $heading = 'Kurva S proyek (Rp miliar kumulatif)';
 
     protected function getType(): string
     {

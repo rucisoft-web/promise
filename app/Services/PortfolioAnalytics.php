@@ -90,11 +90,11 @@ class PortfolioAnalytics
         for ($m = $start->copy(); $m->lte($end); $m->addMonth()) {
             $eom = $m->copy()->endOfMonth();
             $labels[] = $m->translatedFormat('M y');
-            $pv[] = round($wp->sum(fn (WbsItem $i) => $i->planned_cost * $i->plannedPercentAt($eom) / 100) / 1e6, 2);
+            $pv[] = round($wp->sum(fn (WbsItem $i) => $i->planned_cost * $i->plannedPercentAt($eom) / 100) / 1e9, 2);
             $key = $m->format('Y-m');
             if ($m->lte($statusDate) && isset($reports[$key])) {
-                $lastEv = round($reports[$key]->sum('ev') / 1e6, 2);
-                $lastAc = round($reports[$key]->sum('ac') / 1e6, 2);
+                $lastEv = round($reports[$key]->sum('ev') / 1e9, 2);
+                $lastAc = round($reports[$key]->sum('ac') / 1e9, 2);
             } elseif ($m->gt($statusDate)) {
                 $lastEv = $lastAc = null;
             }
@@ -141,7 +141,7 @@ class PortfolioAnalytics
     public static function contractsByStatus(): array
     {
         return Contract::selectRaw('status, sum(value) as total, count(*) as n')->groupBy('status')->get()
-            ->mapWithKeys(fn ($r) => [Pmbok::CONTRACT_STATUSES[$r->status] ?? $r->status => round($r->total / 1e6, 2)])
+            ->mapWithKeys(fn ($r) => [Pmbok::CONTRACT_STATUSES[$r->status] ?? $r->status => round($r->total / 1e9, 2)])
             ->all();
     }
 

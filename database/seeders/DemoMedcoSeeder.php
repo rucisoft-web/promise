@@ -68,6 +68,13 @@ class DemoMedcoSeeder extends Seeder
         Models\Portfolio::withoutGlobalScopes()->whereIn('id', $ids)->update(['company' => static::COMPANY]);
         Models\Project::withoutGlobalScopes()->whereIn('portfolio_id', $ids)->update(['company' => static::COMPANY]);
         Models\Vendor::withoutGlobalScopes()->whereIn('id', collect($this->vendors)->pluck('id'))->update(['company' => static::COMPANY]);
+        $resourceIds = Models\Resource::withoutGlobalScopes()->where(function ($q) {
+            foreach ($this->resourceCodePatterns() as $pattern) {
+                $q->orWhere('code', 'like', $pattern);
+            }
+        })->pluck('id');
+        // Tarif per jam ke Rupiah (biaya proyek sudah dikonversi per proyek)
+        Models\Resource::withoutGlobalScopes()->whereIn('id', $resourceIds)->update(\App\Support\Rupiah::multiplied(['cost_rate'], \App\Support\Rupiah::DEMO_RATE));
         Models\Resource::withoutGlobalScopes()->where(function ($q) {
             foreach ($this->resourceCodePatterns() as $pattern) {
                 $q->orWhere('code', 'like', $pattern);
@@ -112,7 +119,7 @@ class DemoMedcoSeeder extends Seeder
         }
 
         $pool = [
-            // [nama, disiplin, fungsi, tarif US$/jam, user]
+            // [nama, disiplin, fungsi, tarif setara US$/jam (disimpan dalam Rupiah), user]
             ['Arief Rahmanto', 'Manajemen proyek offshore', 'Project Management', 145, 'pm.natuna'],
             ['Dewi Lestari Putri', 'Manajemen proyek gas', 'Project Management', 140, 'pm.senoro'],
             ['Fajar Nugroho', 'Manajemen proyek onshore', 'Project Management', 135, 'pm.sumatra'],
@@ -326,6 +333,10 @@ class DemoMedcoSeeder extends Seeder
         if ($done || $s['phase'] === 'pengendalian') {
             $this->lessons($p, $s);
         }
+        // Data disusun dalam setara US$, disimpan dalam Rupiah (mata uang tunggal Promise)
+        \App\Support\Rupiah::convertProjects([$p->id]);
+        $p->refresh();
+        $p->forgetEvm();
         DemoFiles::forProject($p);
     }
 

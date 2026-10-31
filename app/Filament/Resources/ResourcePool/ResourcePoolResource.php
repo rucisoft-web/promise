@@ -57,7 +57,7 @@ class ResourcePoolResource extends Resource
             TextInput::make('department')->label('Fungsi/departemen'),
             TextInput::make('email')->email(),
             Select::make('user_id')->label('Akun pengguna')->options(fn () => Models\User::orderBy('name')->pluck('name', 'id'))->searchable()->helperText('Untuk mengisi lembar waktu sendiri.'),
-            TextInput::make('cost_rate')->label('Tarif per jam')->numeric()->prefix(config('promise.currency')),
+            TextInput::make('cost_rate')->label('Tarif per jam')->numeric()->prefix(\App\Support\Fmt::CURRENCY),
             TextInput::make('capacity_hours')->label('Kapasitas per minggu')->numeric()->default(40)->suffix('jam'),
             Toggle::make('is_active')->label('Aktif')->default(true),
         ]);

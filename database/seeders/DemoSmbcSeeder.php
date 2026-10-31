@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Portofolio contoh kedua: PT Bank SMBC Indonesia Tbk (DATA DEMO).
  * Inisiatif disarikan dari Laporan Tahunan 2025 (pengembangan TI, Jenius, TOUCHBIZ, PIKK,
- * keuangan berkelanjutan, transformasi HR); anggaran (setara US$), jadwal rinci, progres,
+ * keuangan berkelanjutan, transformasi HR); anggaran (disusun setara US$, disimpan dalam Rupiah), jadwal rinci, progres,
  * risiko, kontrak, vendor, personel, dan dokumen adalah simulasi.
  */
 class DemoSmbcSeeder extends DemoMedcoSeeder
@@ -51,7 +51,7 @@ class DemoSmbcSeeder extends DemoMedcoSeeder
         }
 
         $pool = [
-            // [nama, disiplin, fungsi, tarif US$/jam (setara), user]
+            // [nama, disiplin, fungsi, tarif setara US$/jam, disimpan dalam Rupiah, user]
             ['Gilang Ramadhan', 'Manajemen program TI', 'Project Management', 95, 'pm.core'],
             ['Clara Natalia', 'Manajemen proyek digital', 'Project Management', 90, 'pm.digital'],
             ['Hadi Susanto', 'Manajemen proyek infrastruktur', 'Project Management', 88, 'pm.infra'],
@@ -291,7 +291,7 @@ class DemoSmbcSeeder extends DemoMedcoSeeder
             ['Pengguna bisnis tidak tersedia untuk UAT', 'organisasi', 'Beban operasional lini bisnis', 3, 3, 'mitigasi', 'Jadwal UAT disepakati di awal, backfill personel'],
             ['Keterlambatan persetujuan/notifikasi regulator', 'regulasi', 'Antrian proses di OJK', 2, 4, 'mitigasi', 'Konsultasi awal & dokumen lengkap sebelum pengajuan'],
             ['Pergantian personel kunci vendor', 'pengadaan', 'Persaingan talenta TI', 3, 3, 'alihkan', 'Klausul personel kunci & penalti di kontrak'],
-            ['Kenaikan biaya lisensi karena kurs', 'keuangan', 'Lisensi dalam US$ dan SGD', 3, 2, 'terima', 'Pembayaran di muka saat kurs menguntungkan'],
+            ['Kenaikan biaya lisensi karena kurs', 'keuangan', 'Lisensi dalam dolar AS dan SGD', 3, 2, 'terima', 'Pembayaran di muka saat kurs menguntungkan'],
             ['Kerentanan keamanan pada komponen pihak ketiga', 'siber', 'Pustaka open source & API vendor', 3, 4, 'mitigasi', 'Software composition analysis & patch bulanan'],
             ['Resistensi pengguna terhadap proses baru', 'organisasi', 'Kebiasaan kerja lama', 3, 2, 'mitigasi', 'Change champion di tiap unit, pelatihan bertahap'],
         ];

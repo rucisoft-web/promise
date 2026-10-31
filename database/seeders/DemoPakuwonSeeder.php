@@ -8,7 +8,7 @@ use App\Models;
  * Portofolio contoh ketiga: PT Pakuwon Jati Tbk (DATA DEMO).
  * Proyek disarikan dari Laporan Tahunan 2025 (Pakuwon Mall Semarang, extension Pakuwon Mall Phase 5,
  * Kota Kasablanka Phase 4, Pakuwon Nusantara IKN, hotel baru Bekasi & Surabaya, Park Shanghai);
- * anggaran (setara US$), jadwal rinci, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi.
+ * anggaran (disusun setara US$, disimpan dalam Rupiah), jadwal rinci, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi.
  */
 class DemoPakuwonSeeder extends DemoMedcoSeeder
 {
@@ -49,7 +49,7 @@ class DemoPakuwonSeeder extends DemoMedcoSeeder
         }
 
         $pool = [
-            // [nama, disiplin, fungsi, tarif US$/jam (setara), user]
+            // [nama, disiplin, fungsi, tarif setara US$/jam, disimpan dalam Rupiah, user]
             ['Andreas Gunawan', 'Manajemen proyek konstruksi', 'Project Management', 90, 'pm.mall'],
             ['Rina Puspitasari', 'Manajemen proyek konstruksi', 'Project Management', 85, 'pm.smg'],
             ['Daniel Santoso', 'Manajemen proyek konstruksi', 'Project Management', 85, 'pm.jkt'],

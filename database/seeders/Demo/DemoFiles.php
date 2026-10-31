@@ -31,7 +31,7 @@ class DemoFiles
             ['', DemoData::SHORT, 'Disusun untuk peragaan perangkat lunak Promise, bukan dokumen resmi perusahaan.']);
         self::store($p, $p, $dir.'/piagam-proyek.pdf', self::pdf($charter), 'Piagam Proyek '.$p->code, 'laporan', 'PC-'.$p->code.'-001', '1');
 
-        $rows = [['Kode WBS', 'Elemen', 'Level', 'Mulai baseline', 'Selesai baseline', 'Anggaran (US$)', 'Milestone']];
+        $rows = [['Kode WBS', 'Elemen', 'Level', 'Mulai baseline', 'Selesai baseline', 'Anggaran (Rp)', 'Milestone']];
         foreach ($wbs as $w) {
             $rows[] = [$w->code, $w->name, $w->level, $w->baseline_start?->format('Y-m-d'), $w->baseline_finish?->format('Y-m-d'), (float) $w->planned_cost, $w->is_milestone ? 'Ya' : ''];
         }
