@@ -147,3 +147,7 @@ p { margin: 0 0 .6rem; }
 @media (max-width: 860px) { .l-only-m { display: inline-flex; margin-left: auto; } .l-only-m + .l-btn { margin-left: .4rem; } }
 @media (max-width: 860px) { .l-only-m { white-space: nowrap; font-size: .76rem; padding: .4rem .6rem; } .l-top-in .l-btn-sm { white-space: nowrap; } }
 @media (max-width: 400px) { .l-top-in .l-logo { height: 30px; width: auto; } }
+.w-logo { flex: none; display: grid; place-items: center; background: #fff; border-radius: .7rem; padding: .45rem .55rem; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+.w-logo img { height: 72px; width: auto; display: block; }
+.w-logo-sm img { height: 52px; }
+.w-partner small { color: #A9B8CC; }

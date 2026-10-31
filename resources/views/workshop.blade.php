@@ -36,9 +36,9 @@
         ['Sesi konsultasi lanjutan', 'Diskusi tindak lanjut selama masa uji coba untuk menjawab pertanyaan penerapan.'],
     ];
     $steps = [
-        ['1', 'Workshop Mengenal Promise', '2 hari', 'Untuk direksi, eksekutif, dan kepala PMO. Memahami manajemen proyek berbasis PMBOK dan bagaimana Promise membantu pengambilan keputusan. Peserta mendapat akses uji coba 3 bulan.'],
+        ['1', 'Workshop Pengenalan', '2 hari', 'Untuk direksi, eksekutif, dan kepala PMO. Memahami manajemen proyek berbasis PMBOK dan bagaimana Promise membantu pengambilan keputusan. Peserta mendapat akses uji coba 3 bulan.'],
         ['2', 'Workshop Persiapan Implementasi (in-house)', '2 hari', 'Di perusahaan Anda, bersama tim PMO dan manajer proyek: memetakan portofolio dan proyek berjalan, menyepakati struktur WBS standar, kategori risiko, peran dan hak akses pengguna, format laporan, serta data awal yang akan dimasukkan.'],
-        ['3', 'Instalasi dan Pendampingan', '6 bulan', 'Instalasi Promise di server perusahaan, pemasukan data proyek awal, pelatihan pengguna per peran, pendampingan rapat tinjauan bulanan, dan evaluasi manfaat di akhir masa pendampingan.'],
+        ['3', 'Instalasi dan Pendampingan', '6 bulan', 'Instalasi Promise di server perusahaan, pemasukan data proyek awal, pelatihan pengguna per peran, pendampingan project monitoring (pembaruan progres, laporan status, dan rapat tinjauan bulanan), serta evaluasi manfaat di akhir masa pendampingan.'],
     ];
     $cycle = [
         ['Rencanakan', 'Piagam, WBS, jadwal baseline, anggaran per paket kerja, rencana risiko dan komunikasi.'],
@@ -58,7 +58,7 @@
     <meta property="og:description" content="Workshop 2 hari mengenal Promise bersama {{ $partner }}.">
     <meta property="og:image" content="{{ asset('images/kenali/dasbor.jpg') }}?v=2">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=7">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=8">
 </head>
 <body>
 <header class="l-top">
@@ -95,8 +95,8 @@
 
     <section class="w-partner" aria-label="Mitra penyelenggara">
         <div class="l-wrap w-partner-in">
-            <img src="{{ asset('images/mitra/uin-sunan-kalijaga-putih.png') }}" alt="Logo UIN Sunan Kalijaga Yogyakarta" width="210" height="44">
-            <p>Diselenggarakan bekerja sama dengan<br><b>{{ $partner }}</b></p>
+            <span class="w-logo"><img src="{{ asset('images/mitra/uin-sunan-kalijaga.png') }}" alt="Logo UIN Sunan Kalijaga Yogyakarta" width="200" height="247"></span>
+            <p>Diselenggarakan bekerja sama dengan<br><b>{{ $partner }}</b><br><small>Universitas Islam Negeri Sunan Kalijaga Yogyakarta</small></p>
         </div>
     </section>
 
@@ -161,7 +161,7 @@
     <section class="l-section" id="langkah">
         <div class="l-wrap">
             <span class="l-eyebrow">Langkah menggunakan Promise</span>
-            <h2>Tiga tahap penerapan di perusahaan</h2>
+            <h2>Tiga tahap untuk menginstalasi Promise dan memanfaatkannya untuk project monitoring</h2>
             <div class="w-steps">
                 @foreach ($steps as [$n, $t, $dur, $d])
                     <div class="w-step"><span class="w-step-n">{{ $n }}</span><div><h3>{{ $t }} <small>{{ $dur }}</small></h3><p>{{ $d }}</p></div></div>

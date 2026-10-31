@@ -80,7 +80,7 @@ class DemoPagesTest extends TestCase
     {
         $this->get('/workshop')->assertOk()->assertSee('Project Management for Executive')
             ->assertSee('Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga')->assertSee('Akses uji coba Promise selama 3 bulan')
-            ->assertSee('Instalasi dan Pendampingan')->assertSee('uin-sunan-kalijaga-putih.png', false);
+            ->assertSee('Instalasi dan Pendampingan')->assertSee('Workshop Pengenalan')->assertSee('uin-sunan-kalijaga.png', false);
         config(['promise.guest_login' => true]);
         $this->get('/')->assertSee('Memanfaatkan Promise')->assertSee(route('promise.workshop'));
     }

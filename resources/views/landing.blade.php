@@ -30,7 +30,7 @@
     <meta property="og:description" content="Portofolio, jadwal, biaya, risiko, dan dokumen proyek dalam satu sistem berbasis PMBOK.">
     <meta property="og:image" content="{{ $img('dasbor') }}">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=7">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=8">
 </head>
 <body>
 <header class="l-top">
@@ -154,9 +154,9 @@
             <div>
                 <span class="l-eyebrow">Workshop 2 hari · Project Management for Executive</span>
                 <h2>Pelajari cara memanfaatkan Promise di perusahaan Anda</h2>
-                <p>Bersama Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga. Termasuk akses uji coba Promise selama 3 bulan.</p>
+                <p>Bersama Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga. Termasuk akses uji coba Promise selama 3 bulan. Tahap penerapan: workshop pengenalan (2 hari), workshop persiapan implementasi in-house (2 hari), instalasi dan pendampingan (6 bulan).</p>
             </div>
-            <img src="{{ asset('images/mitra/uin-sunan-kalijaga-putih.png') }}" alt="Logo UIN Sunan Kalijaga Yogyakarta" width="210" height="44">
+            <span class="w-logo w-logo-sm"><img src="{{ asset('images/mitra/uin-sunan-kalijaga.png') }}" alt="Logo UIN Sunan Kalijaga Yogyakarta" width="200" height="247"></span>
             <a href="{{ route('promise.workshop') }}" class="l-btn l-btn-amber">Lihat materi workshop</a>
         </div>
     </section>
