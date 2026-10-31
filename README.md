@@ -12,7 +12,9 @@ Sistem informasi manajemen proyek berbasis web yang mengacu pada **PMBOK® Guide
 - **Pusat Dokumen**: unggah PDF, DOC/DOCX, XLS/XLSX, PPT/PPTX, PNG, JPG (maks. 20 MB) ke proyek, tugas WBS, risiko, isu, perubahan, mutu, kontrak, laporan status; disimpan privat, unduh/pratinjau setelah login.
 - Peran: Administrator, PMO, Manajer Proyek (hanya proyeknya), Anggota Tim, Eksekutif (lihat), Tamu (demo, hanya lihat).
 - Halaman depan promosi dan tombol **Masuk sebagai Tamu** (`PROMISE_GUEST_LOGIN=true`).
-- Data demo 17 proyek bertema MedcoEnergi 2025 dengan WBS level 2 (DATA DEMO, bukan data resmi).
+- Data demo 17 proyek bertema MedcoEnergi 2025 dengan WBS level 2.
+
+> **DATA DEMO, bukan proyek yang sesungguhnya.** Data contoh hanya untuk keperluan pembelajaran dan peragaan fitur; jadwal, anggaran, progres, risiko, vendor, personel, dan dokumen adalah simulasi, bukan data resmi PT Medco Energi Internasional Tbk. Peringatan ini tampil otomatis di aplikasi selama data demo terpasang.
 
 ## Teknologi
 

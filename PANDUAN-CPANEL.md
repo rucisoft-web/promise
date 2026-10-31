@@ -151,7 +151,7 @@ php artisan optimize:clear && php artisan optimize
 
 (atau `PROMISE_SEED_DEMO=true` sebelum `migrate --seed`). Perintah dilewati bila demo sudah ada. Akun demo memakai domain `@contoh.local` dengan kata sandi `Promise-2026!`, jadi **jangan memuat demo di situs sungguhan** yang bisa diakses publik.
 
-> **Peringatan:** isinya DATA DEMO, hanya untuk memaksimalkan penyajian fitur perangkat lunak. Nama proyek mengacu pada Laporan Tahunan MedcoEnergi 2025, tetapi jadwal, anggaran, progres, risiko, vendor, dan dokumen adalah simulasi, bukan data resmi PT Medco Energi Internasional Tbk.
+> **Peringatan: DATA DEMO, bukan proyek yang sesungguhnya.** Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan. Selama data demo terpasang, peringatan ini tampil otomatis di setiap halaman aplikasi, halaman login, halaman depan, dan di setiap dokumen contoh (PDF, XLSX, DOCX, JPG).
 
 ### Situs demo untuk pengunjung (akses Tamu)
 

@@ -143,3 +143,6 @@
 .pm-guest-btn:hover { background: #B87700; }
 .pm-demo-note { font-size: .74rem; color: var(--pm-tx2); line-height: 1.5; }
 .pm-footer { text-align: center; font-size: .75rem; color: var(--pm-tx2); padding: 1rem; }
+.pm-footer-demo { font-weight: 700; color: #B45309; margin-bottom: .25rem; }
+.dark .pm-footer-demo { color: #F7D9A0; }
+.pm-banner-demo { margin-top: 1rem; }

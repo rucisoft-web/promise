@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Project;
 use App\Models\TaskDependency;
 use App\Models\WbsItem;
+use App\Support\DemoData;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -25,7 +26,11 @@ class DemoPagesTest extends TestCase
         $this->assertGreaterThan(80, Document::count());
         $this->assertEqualsWithDelta(0.81, Project::where('code', 'THA-BL1')->first()->evm()['spi'], 0.03);
 
+        config(['promise.guest_login' => true]);
+        $this->get('/admin/login')->assertOk()->assertSee(DemoData::TITLE);
+        $this->get('/')->assertOk()->assertSee(DemoData::TITLE)->assertSee('keperluan pembelajaran');
         $this->actingAs(\App\Models\User::where('role', 'admin')->first());
+        $this->get('/admin')->assertSee(DemoData::TITLE)->assertSee('hanya untuk keperluan pembelajaran');
         $pages = ['/admin', '/admin/proyek', '/admin/proyek/create', '/admin/perubahan', '/admin/portofolio', '/admin/pelajaran', '/admin/wbs',
             '/admin/jadwal', '/admin/keterkaitan-tugas', '/admin/earned-value', '/admin/mutu', '/admin/sumber-daya', '/admin/penugasan',
             '/admin/lembar-waktu', '/admin/kapasitas', '/admin/pemangku-kepentingan', '/admin/rencana-komunikasi', '/admin/laporan-status',

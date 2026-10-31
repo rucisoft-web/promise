@@ -55,6 +55,7 @@
                     <a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a>
                     <a href="#fitur" class="l-btn">Lihat fiturnya</a>
                 </div>
+                <div class="l-warn"><span><b>{{ \App\Support\DemoData::TITLE }}</b> Proyek yang ditampilkan adalah contoh untuk keperluan pembelajaran, bukan data resmi perusahaan. <a href="#data-demo">Selengkapnya</a></span></div>
                 <div class="l-stats">
                     <div class="l-stat"><b>{{ $stats['projects'] }}</b><span>proyek contoh</span></div>
                     <div class="l-stat"><b>{{ number_format($stats['wbs'], 0, ',', '.') }}</b><span>elemen WBS</span></div>
@@ -147,7 +148,7 @@
                     <div class="l-case"><i style="background: {{ $rag[$c->health()] ?? '#64748B' }}"></i><div><b>{{ $c->name }}</b><small>{{ $c->code }} · {{ \App\Support\Pmbok::PHASES[$c->phase] ?? $c->phase }} · {{ $c->location }}</small></div></div>
                 @endforeach
             </div>
-            <div class="l-warn"><b>Data demo.</b>&nbsp;Anggaran, jadwal rinci, progres, risiko, kontrak, vendor, nama personel, dan dokumen adalah simulasi untuk memperagakan fitur, bukan data resmi perusahaan. Mode Tamu hanya melihat, data tidak bisa diubah.</div>
+            <div class="l-warn"><span><b>{{ \App\Support\DemoData::TITLE }}</b> {{ \App\Support\DemoData::NOTICE }} Mode Tamu hanya melihat, data tidak bisa diubah.</span></div>
             <div class="l-actions"><a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a></div>
         </div>
     </section>
@@ -168,7 +169,7 @@
     </section>
 </main>
 <footer class="l-foot">
-    <div class="l-wrap"><b>Promise</b> · Project Management Information System · © {{ date('Y') }} Rucisoft. PMBOK adalah merek terdaftar Project Management Institute, Inc.</div>
+    <div class="l-wrap"><b>Promise</b> · Project Management Information System · © {{ date('Y') }} Rucisoft. {{ \App\Support\DemoData::SHORT }} PMBOK adalah merek terdaftar Project Management Institute, Inc.</div>
 </footer>
 </body>
 </html>
