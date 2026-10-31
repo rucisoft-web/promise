@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /** Data induk (portofolio, kelompok sumber daya, vendor): diubah admin/PMO, dilihat semua. */
 trait AdminOnlyWrite
 {
+    use BridgesAuthorization;
+
     protected static function user(): ?User
     {
         $u = auth()->user();

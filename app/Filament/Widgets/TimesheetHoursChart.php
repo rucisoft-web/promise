@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\Timesheets\TimesheetResource;
 use App\Services\PortfolioAnalytics as A;
 
 class TimesheetHoursChart extends BaseChart
@@ -23,7 +24,8 @@ class TimesheetHoursChart extends BaseChart
         $sets = [];
         $i = 0;
         foreach ($t['series'] as $label => $data) {
-            $sets[] = ['label' => $label, 'data' => $data, 'backgroundColor' => self::PALETTE[$i++ % 8], 'borderRadius' => 3];
+            $sets[] = ['label' => $label, 'data' => $data, 'backgroundColor' => self::PALETTE[$i++ % 8], 'borderRadius' => 3,
+                'urls' => array_fill(0, count($data), self::listUrl(TimesheetResource::class))];
         }
 
         return ['labels' => $t['labels'], 'datasets' => $sets];

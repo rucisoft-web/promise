@@ -2,7 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\Projects\ProjectResource;
 use App\Services\PortfolioAnalytics as A;
+use App\Support\Pmbok;
 
 class HealthByUnitChart extends BaseChart
 {
@@ -18,13 +20,14 @@ class HealthByUnitChart extends BaseChart
     protected function getData(): array
     {
         $h = A::healthByUnit();
+        $urls = array_map(fn ($label) => self::listUrl(ProjectResource::class, 'business_unit', array_search($label, Pmbok::BUSINESS_UNITS)), array_keys($h));
 
         return [
             'labels' => array_keys($h),
             'datasets' => [
-                ['label' => 'Hijau', 'data' => array_column($h, 'hijau'), 'backgroundColor' => '#2E7D4F', 'borderRadius' => 4],
-                ['label' => 'Kuning', 'data' => array_column($h, 'kuning'), 'backgroundColor' => '#D98E04', 'borderRadius' => 4],
-                ['label' => 'Merah', 'data' => array_column($h, 'merah'), 'backgroundColor' => '#D32F2F', 'borderRadius' => 4],
+                ['label' => 'Hijau', 'data' => array_column($h, 'hijau'), 'backgroundColor' => '#2E7D4F', 'borderRadius' => 4, 'urls' => $urls],
+                ['label' => 'Kuning', 'data' => array_column($h, 'kuning'), 'backgroundColor' => '#D98E04', 'borderRadius' => 4, 'urls' => $urls],
+                ['label' => 'Merah', 'data' => array_column($h, 'merah'), 'backgroundColor' => '#D32F2F', 'borderRadius' => 4, 'urls' => $urls],
             ],
         ];
     }

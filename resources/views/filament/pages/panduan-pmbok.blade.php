@@ -37,4 +37,21 @@
             <li><b>Eksekutif</b>: melihat dasbor dan seluruh proyek tanpa mengubah.</li>
         </ul>
     </div>
+
+    @php($guides = collect(\App\Support\Help::all())->except(['umum', 'panduan']))
+    <div class="pm-card" id="panduan-layar" style="margin-top: 1.5rem">
+        <h3 class="pm-h3">Panduan per layar</h3>
+        <p>Penjelasan konsep, cara memakai, data yang diisi, contoh, dan tangkapan layar untuk setiap layar. Panduan yang sama muncul saat menekan tombol <b>Bantuan</b> di pojok kanan atas.</p>
+        <ul class="pm-help-toc">@foreach ($guides as $key => $g)<li><a href="#bantuan-{{ $key }}">{{ $g['title'] }}</a></li>@endforeach</ul>
+    </div>
+    <div class="pm-help-doc">
+        @foreach ($guides as $key => $g)
+            <article class="pm-card" id="bantuan-{{ $key }}">
+                <small>{{ $g['area'] }}</small>
+                <h2>{{ $g['title'] }}</h2>
+                @include('filament.partials.help-body', ['h' => $g, 'shots' => \App\Support\Help::shots($key)])
+                <a class="pm-help-anchor" href="#panduan-layar">↑ Daftar panduan</a>
+            </article>
+        @endforeach
+    </div>
 </x-filament-panels::page>

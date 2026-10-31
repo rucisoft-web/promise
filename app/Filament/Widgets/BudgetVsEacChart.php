@@ -22,14 +22,15 @@ class BudgetVsEacChart extends BaseChart
     protected function getData(): array
     {
         $ps = A::active()->sortByDesc(fn ($p) => $p->evm()['bac'])->values();
+        $urls = $ps->map(fn ($p) => self::projectUrl($p->id))->all();
         $m = fn ($k) => $ps->map(fn ($p) => round($p->evm()[$k] / 1e6, 2))->all();
 
         return [
             'labels' => $ps->pluck('code')->all(),
             'datasets' => [
-                ['label' => 'BAC', 'data' => $m('bac'), 'backgroundColor' => '#0F5E9C', 'borderRadius' => 4],
-                ['label' => 'EAC', 'data' => $m('eac'), 'backgroundColor' => '#2A8C9E', 'borderRadius' => 4],
-                ['label' => 'AC', 'data' => $m('ac'), 'backgroundColor' => '#D98E04', 'borderRadius' => 4],
+                ['label' => 'BAC', 'data' => $m('bac'), 'backgroundColor' => '#0F5E9C', 'borderRadius' => 4, 'urls' => $urls],
+                ['label' => 'EAC', 'data' => $m('eac'), 'backgroundColor' => '#2A8C9E', 'borderRadius' => 4, 'urls' => $urls],
+                ['label' => 'AC', 'data' => $m('ac'), 'backgroundColor' => '#D98E04', 'borderRadius' => 4, 'urls' => $urls],
             ],
         ];
     }

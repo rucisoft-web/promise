@@ -61,7 +61,7 @@
             <div class="pm-grid-2">
                 <div>
                     <div class="pm-pane-head"><h3>Matriks risiko (probabilitas × dampak)</h3><a href="{{ $f($R.'Risks\\RiskResource') }}">Register risiko</a></div>
-                    <x-promise.risk-matrix :risks="$risks->where('status', '!=', 'ditutup')" />
+                    <x-promise.risk-matrix :risks="$risks->where('status', '!=', 'ditutup')" :project-id="$p->id" />
                 </div>
                 <div>
                     <div class="pm-pane-head"><h3>Risiko teratas</h3></div>

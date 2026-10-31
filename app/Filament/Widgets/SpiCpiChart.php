@@ -33,6 +33,7 @@ class SpiCpiChart extends BaseChart
                 'data' => [['x' => round($e['spi'], 3), 'y' => round($e['cpi'], 3), 'r' => round(6 + 18 * sqrt($e['bac'] / $max), 1)]],
                 'backgroundColor' => $color.'B3',
                 'borderColor' => $color,
+                'urls' => [self::projectUrl($p->id)],
             ];
         }
 

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
@@ -22,7 +23,10 @@ class AppServiceProvider extends ServiceProvider
         \Filament\Forms\Components\DatePicker::configureUsing(fn ($c) => $c->native(false)->displayFormat('d/m/Y'));
         \Filament\Tables\Table::configureUsing(fn ($t) => $t->defaultPaginationPageOption(25)->striped());
 
-        FilamentAsset::register([Css::make('promise', asset('css/promise.css').'?v=1')]);
+        FilamentAsset::register([
+            Css::make('promise', asset('css/promise.css').'?v=3'),
+            Js::make('promise-charts', asset('js/promise-charts.js').'?v=1'),
+        ]);
 
         Password::defaults(fn () => Password::min(10)->letters()->numbers());
 

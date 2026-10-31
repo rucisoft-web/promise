@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 /** Hak akses untuk data milik proyek: admin/PMO semua proyek, manajer proyek hanya proyeknya. */
 trait ProjectScopedAccess
 {
+    use BridgesAuthorization;
+
     protected static function user(): ?User
     {
         $u = auth()->user();

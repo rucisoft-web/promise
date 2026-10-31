@@ -1,4 +1,4 @@
-@props(['risks'])
+@props(['risks', 'projectId' => null])
 @php
     $cells = [];
     foreach ($risks as $r) { $cells[$r->probability][$r->impact][] = $r; }
@@ -13,7 +13,10 @@
                 @for ($i = 1; $i <= 5; $i++)
                     @php($list = $cells[$p][$i] ?? [])
                     <td class="pm-m-{{ $lv($p * $i) }}" title="{{ collect($list)->map(fn ($r) => $r->code.' '.$r->title)->implode("\n") }}">
-                        @if (count($list))<b>{{ count($list) }}</b>@endif
+                        @if (count($list))
+                            @php($f = ['probability' => ['value' => $p], 'impact' => ['value' => $i]] + ($projectId ? ['project_id' => ['value' => $projectId]] : []))
+                            <a href="{{ \App\Filament\Resources\Risks\RiskResource::getUrl('index', ['filters' => $f]) }}" class="pm-m-link"><b>{{ count($list) }}</b></a>
+                        @endif
                     </td>
                 @endfor
             </tr>

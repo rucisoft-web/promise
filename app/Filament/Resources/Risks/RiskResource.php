@@ -95,6 +95,8 @@ class RiskResource extends Resource
                 F::projectFilter(),
                 SelectFilter::make('category')->label('Kategori')->options(Pmbok::RISK_CATEGORIES),
                 SelectFilter::make('status')->options(Pmbok::RISK_STATUSES),
+                SelectFilter::make('probability')->label('Probabilitas')->options(array_combine(range(1, 5), range(1, 5))),
+                SelectFilter::make('impact')->label('Dampak')->options(array_combine(range(1, 5), range(1, 5))),
                 SelectFilter::make('response_strategy')->label('Respons')->options(Pmbok::RISK_RESPONSES),
             ])
             ->defaultSort('probability')

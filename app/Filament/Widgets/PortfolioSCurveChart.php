@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Pages\KinerjaBiaya;
 use App\Services\PortfolioAnalytics as A;
 
 class PortfolioSCurveChart extends BaseChart
@@ -23,7 +24,12 @@ class PortfolioSCurveChart extends BaseChart
 
     protected function getData(): array
     {
-        return static::curve(A::sCurve());
+        $data = static::curve(A::sCurve());
+        foreach ($data['datasets'] as &$set) {
+            $set['urls'] = array_fill(0, count($data['labels']), KinerjaBiaya::getUrl());
+        }
+
+        return $data;
     }
 
     public static function curve(array $c): array

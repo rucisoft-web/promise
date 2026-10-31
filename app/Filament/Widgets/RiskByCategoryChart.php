@@ -2,7 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\Risks\RiskResource;
 use App\Services\PortfolioAnalytics as A;
+use App\Support\Pmbok;
 
 class RiskByCategoryChart extends BaseChart
 {
@@ -18,12 +20,13 @@ class RiskByCategoryChart extends BaseChart
     protected function getData(): array
     {
         $r = A::riskByCategory();
+        $urls = array_map(fn ($label) => self::listUrl(RiskResource::class, 'category', array_search($label, Pmbok::RISK_CATEGORIES)), array_keys($r));
 
         return [
             'labels' => array_keys($r),
             'datasets' => [
-                ['label' => 'Skor tinggi (≥15)', 'data' => array_column($r, 'high'), 'backgroundColor' => '#D32F2F', 'borderRadius' => 4],
-                ['label' => 'Lainnya', 'data' => array_map(fn ($v) => $v['count'] - $v['high'], array_values($r)), 'backgroundColor' => '#F2B8B8', 'borderRadius' => 4],
+                ['label' => 'Skor tinggi (≥15)', 'data' => array_column($r, 'high'), 'backgroundColor' => '#D32F2F', 'borderRadius' => 4, 'urls' => $urls],
+                ['label' => 'Lainnya', 'data' => array_map(fn ($v) => $v['count'] - $v['high'], array_values($r)), 'backgroundColor' => '#F2B8B8', 'borderRadius' => 4, 'urls' => $urls],
             ],
         ];
     }
