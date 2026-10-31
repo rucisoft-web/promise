@@ -30,7 +30,7 @@
     <meta property="og:description" content="Portofolio, jadwal, biaya, risiko, dan dokumen proyek dalam satu sistem berbasis PMBOK.">
     <meta property="og:image" content="{{ $img('dasbor') }}">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=5">
 </head>
 <body>
 <header class="l-top">
@@ -42,6 +42,7 @@
             <a href="#fitur">Fitur</a>
             <a href="#data-demo">Data demo</a>
             <a href="#tanya">Tanya jawab</a>
+            <a href="{{ route('promise.workshop') }}">Workshop</a>
         </nav>
         <a href="{{ url('/admin/login') }}" class="l-btn l-btn-sm">Masuk</a>
     </div>
@@ -147,11 +148,23 @@
         </div>
     </section>
 
+    <section class="l-workshop" aria-label="Workshop">
+        <div class="l-wrap l-workshop-in">
+            <div>
+                <span class="l-eyebrow">Workshop 2 hari · Project Management for Executive</span>
+                <h2>Pelajari cara memanfaatkan Promise di perusahaan Anda</h2>
+                <p>Bersama Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga. Termasuk akses uji coba Promise selama 3 bulan.</p>
+            </div>
+            <img src="{{ asset('images/mitra/uin-sunan-kalijaga-putih.png') }}" alt="Logo UIN Sunan Kalijaga Yogyakarta" width="210" height="44">
+            <a href="{{ route('promise.workshop') }}" class="l-btn l-btn-amber">Lihat materi workshop</a>
+        </div>
+    </section>
+
     <section class="l-section l-alt" id="data-demo">
         <div class="l-wrap">
             <span class="l-eyebrow">Data demo</span>
             <h2>Tiga perusahaan contoh: {{ $cases->count() }} proyek energi, perbankan, dan properti</h2>
-            <p class="l-lead">Nama dan gambaran proyek disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk (pengembangan lapangan migas, pembangkit, tambang) PT Bank SMBC Indonesia Tbk (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, keuangan berkelanjutan), dan PT Pakuwon Jati Tbk (superblok & mal, hotel, hunian, modernisasi aset), khusus untuk pembelajaran. Data setiap perusahaan terpisah: pilih kartu perusahaan, lalu klik "Masuk sebagai Tamu" untuk menjelajah datanya tanpa akun.</p>
+            <p class="l-lead">Nama dan gambaran proyek disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk (pengembangan lapangan migas, pembangkit, tambang), PT Bank SMBC Indonesia Tbk (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, keuangan berkelanjutan), dan PT Pakuwon Jati Tbk (superblok & mal, hotel, hunian, modernisasi aset), khusus untuk pembelajaran. Data setiap perusahaan terpisah: pilih kartu perusahaan, lalu klik "Masuk sebagai Tamu" untuk menjelajah datanya tanpa akun.</p>
             @foreach ($caseGroups as $group => $list)
                 <h3 class="l-cases-h">{{ $group }} <small>({{ $list->count() }} proyek)</small></h3>
                 <div class="l-cases">

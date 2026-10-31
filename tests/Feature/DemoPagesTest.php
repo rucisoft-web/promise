@@ -76,6 +76,13 @@ class DemoPagesTest extends TestCase
         $this->get('/admin/proyek')->assertSee('NTN-FRL')->assertDontSee('SMB-CBS')->assertDontSee('PWN-SMG');
     }
 
+    public function test_halaman_workshop(): void
+    {
+        $this->get('/workshop')->assertOk()->assertSee('Project Management for Executive')
+            ->assertSee('Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga')->assertSee('Akses uji coba Promise selama 3 bulan')
+            ->assertSee('Instalasi dan Pendampingan')->assertSee('uin-sunan-kalijaga-putih.png', false);
+    }
+
     public function test_anggota_tidak_bisa_membuka_pengguna(): void
     {
         $this->actingAs($this->user('anggota'));
