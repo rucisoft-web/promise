@@ -1,7 +1,7 @@
 @php
     $wa = fn (string $text) => 'https://wa.me/'.$whatsapp.'?text='.rawurlencode($text);
     $daftar = $wa('Halo, saya ingin mendaftar Workshop Project Management for Executive (Promise).');
-    $partner = 'Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga';
+    $partner = 'Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga Jogjakarta';
     $benefits = [
         ['Kendali lebih baik atas sumber daya keuangan, fisik, dan manusia', 'Anggaran per paket kerja dengan Earned Value (PV, EV, AC, SPI, CPI), daftar peralatan, serta peta kapasitas dan penugasan SDM memperlihatkan ke mana uang, alat, dan orang dipakai.'],
         ['Hubungan pelanggan yang lebih baik', 'Register pemangku kepentingan, rencana komunikasi, dan laporan status merah-kuning-hijau membuat pelanggan dan pemilik proyek menerima informasi yang konsisten dan tepat waktu.'],
@@ -96,7 +96,7 @@
     <section class="w-partner" aria-label="Mitra penyelenggara">
         <div class="l-wrap w-partner-in">
             <span class="w-logo"><img src="{{ asset('images/mitra/uin-sunan-kalijaga.png') }}" alt="Logo UIN Sunan Kalijaga Yogyakarta" width="200" height="247"></span>
-            <p>Diselenggarakan bekerja sama dengan<br><b>{{ $partner }}</b><br><small>Universitas Islam Negeri Sunan Kalijaga Yogyakarta</small></p>
+            <p>Kerjasama dengan<br><b>{{ $partner }}</b></p>
         </div>
     </section>
 
@@ -176,7 +176,7 @@
 </main>
 
 <footer class="l-foot">
-    <div class="l-wrap"><b>Promise</b> · Project Management Information System · Workshop bersama {{ $partner }} · © {{ date('Y') }} Rucisoft. PMBOK adalah merek terdaftar Project Management Institute, Inc.</div>
+    <div class="l-wrap"><b>Promise</b> · Project Management Information System · Kerjasama dengan {{ $partner }} · © {{ date('Y') }} Rucisoft. PMBOK adalah merek terdaftar Project Management Institute, Inc.</div>
 </footer>
 </body>
 </html>

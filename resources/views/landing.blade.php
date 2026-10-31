@@ -154,7 +154,7 @@
             <div>
                 <span class="l-eyebrow">Workshop 2 hari · Project Management for Executive</span>
                 <h2>Pelajari cara memanfaatkan Promise di perusahaan Anda</h2>
-                <p>Bersama Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga. Termasuk akses uji coba Promise selama 3 bulan. Tahap penerapan: workshop pengenalan (2 hari), workshop persiapan implementasi in-house (2 hari), instalasi dan pendampingan (6 bulan).</p>
+                <p>Kerjasama dengan Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga Jogjakarta. Termasuk akses uji coba Promise selama 3 bulan. Tahap penerapan: workshop pengenalan (2 hari), workshop persiapan implementasi in-house (2 hari), instalasi dan pendampingan (6 bulan).</p>
             </div>
             <span class="w-logo w-logo-sm"><img src="{{ asset('images/mitra/uin-sunan-kalijaga.png') }}" alt="Logo UIN Sunan Kalijaga Yogyakarta" width="200" height="247"></span>
             <a href="{{ route('promise.workshop') }}" class="l-btn l-btn-amber">Lihat materi workshop</a>
