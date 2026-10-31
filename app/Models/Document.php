@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Storage;
 
 class Document extends Model
 {
+    use Concerns\ScopedByProjectCompany;
+
+    protected static bool $projectOptional = true;
+
     public const DISK = 'local';
 
     public const DIRECTORY = 'dokumen';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\DemoCompany;
 use App\Support\GuestMode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,8 @@ class GuestLoginController extends Controller
         }
         Auth::login(GuestMode::user());
         $request->session()->regenerate();
+        // Kartu pilihan data demo: ?perusahaan=medco|smbc (kosong = semua perusahaan demo)
+        DemoCompany::set($request->query('perusahaan'));
 
         return redirect('/admin');
     }

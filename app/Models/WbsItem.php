@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class WbsItem extends Model
 {
+    use Concerns\ScopedByProjectCompany;
+
     use HasDocuments;
 
     protected $guarded = ['id'];

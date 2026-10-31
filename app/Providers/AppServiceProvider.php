@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         \Filament\Tables\Table::configureUsing(fn ($t) => $t->defaultPaginationPageOption(25)->striped());
 
         FilamentAsset::register([
-            Css::make('promise', asset('css/promise.css').'?v=3'),
+            Css::make('promise', asset('css/promise.css').'?v=4'),
             Js::make('promise-charts', asset('js/promise-charts.js').'?v=1'),
         ]);
 

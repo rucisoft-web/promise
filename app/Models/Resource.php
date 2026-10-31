@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Resource extends Model
 {
+    use Concerns\BelongsToCompany;
+
     protected $guarded = ['id'];
 
     protected function casts(): array

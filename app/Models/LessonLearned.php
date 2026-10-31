@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LessonLearned extends Model
 {
+    use Concerns\ScopedByProjectCompany;
+
     use HasDocuments;
 
     protected $table = 'lessons_learned';

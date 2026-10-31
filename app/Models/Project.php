@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
+    use Concerns\BelongsToCompany;
+
     use HasDocuments;
 
     protected $guarded = ['id'];
@@ -44,6 +46,12 @@ class Project extends Model
     public function portfolio(): BelongsTo
     {
         return $this->belongsTo(Portfolio::class);
+    }
+
+    /** Proyek baru ikut perusahaan portofolionya. */
+    public function inheritedCompany(): ?string
+    {
+        return $this->portfolio_id ? Portfolio::withoutGlobalScopes()->whereKey($this->portfolio_id)->value('company') : null;
     }
 
     public function manager(): BelongsTo

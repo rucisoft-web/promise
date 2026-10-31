@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Risk extends Model
 {
+    use Concerns\ScopedByProjectCompany;
+
     use HasDocuments;
 
     protected $guarded = ['id'];

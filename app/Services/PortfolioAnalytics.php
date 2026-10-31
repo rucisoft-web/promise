@@ -18,17 +18,18 @@ use Illuminate\Support\Collection;
 /** Agregasi portofolio untuk dasbor: EVM, kurva S, kesehatan, risiko, sumber daya, pengadaan. */
 class PortfolioAnalytics
 {
-    protected static ?Collection $projects = null;
+    /** @var array<string,Collection> per konteks perusahaan demo */
+    protected static array $projects = [];
 
     public static function flush(): void
     {
-        static::$projects = null;
+        static::$projects = [];
     }
 
     /** @return Collection<int,Project> */
     public static function projects(): Collection
     {
-        return static::$projects ??= Project::with(['wbsItems', 'portfolio', 'manager'])->orderBy('code')->get();
+        return static::$projects[\App\Support\DemoCompany::current() ?? '*'] ??= Project::with(['wbsItems', 'portfolio', 'manager'])->orderBy('code')->get();
     }
 
     public static function active(): Collection

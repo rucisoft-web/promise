@@ -8,6 +8,8 @@ use Illuminate\Validation\ValidationException;
 
 class TaskDependency extends Model
 {
+    use Concerns\ScopedByProjectCompany;
+
     protected $guarded = ['id'];
 
     protected static function booted(): void

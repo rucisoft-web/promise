@@ -16,7 +16,7 @@ class LandingController extends Controller
             return redirect('/admin');
         }
 
-        $stats = Cache::remember('promise.landing.stats', 600, function () {
+        $stats = Cache::remember('promise.landing.stats', 600, fn () => \App\Support\DemoCompany::bypass(function () {
             if (! Schema::hasTable('projects')) {
                 return ['projects' => 0, 'wbs' => 0, 'risks' => 0, 'budget' => 0];
             }
@@ -27,7 +27,7 @@ class LandingController extends Controller
                 'risks' => \App\Models\Risk::count(),
                 'budget' => (float) Project::sum('budget'),
             ];
-        });
+        }));
 
         return view('landing', ['stats' => $stats, 'whatsapp' => config('promise.contact_whatsapp')]);
     }

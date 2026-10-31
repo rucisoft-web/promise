@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vendor extends Model
 {
+    use Concerns\BelongsToCompany;
+
     protected $guarded = ['id'];
 
     public function contracts(): HasMany

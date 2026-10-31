@@ -91,6 +91,7 @@ PROMISE_SEED_DEMO=false
 # situs demo/promosi: tombol "Masuk sebagai Tamu" (hanya lihat), lihat bagian 8
 PROMISE_GUEST_LOGIN=false
 PROMISE_WHATSAPP=6281234567890
+PROMISE_COMPANY_NAME=
 ```
 
 Biarkan `APP_KEY=` kosong; diisi oleh `key:generate` di langkah 6. Di cPanel `DB_HOST` hampir selalu `localhost`. Kata sandi yang memuat `#` atau spasi diberi tanda kutip.
@@ -162,6 +163,8 @@ Setiap perintah dilewati bila demo tersebut sudah ada. Akun demo SMBC memakai aw
 ### Situs demo untuk pengunjung (akses Tamu)
 
 Isi `PROMISE_GUEST_LOGIN=true` lalu `php artisan optimize`. Alamat utama menjadi **halaman depan** (masalah, 9 area pengetahuan PMBOK, fitur bergambar, daftar proyek demo, tanya jawab, tombol WhatsApp dari `PROMISE_WHATSAPP`), dan halaman login menampilkan tombol **Masuk sebagai Tamu**. Akun Tamu (`PROMISE_GUEST_EMAIL`, dibuat otomatis) hanya bisa melihat: tombol buat/ubah/hapus tersembunyi, menu Pengguna tertutup, dan setiap penyimpanan data ditolak sistem. Tamu tetap bisa membuka dan mengunduh dokumen demo. Untuk mematikan, ubah menjadi `false` lalu `php artisan optimize`.
+
+**Data demo per perusahaan.** Di dekat tombol Masuk sebagai Tamu ada kartu pilihan **PT Medco Energi Internasional Tbk** dan **PT Bank SMBC Indonesia Tbk**. Kartu membuka data perusahaan itu saja (proyek, portofolio, WBS, risiko, SDM, vendor, kontrak, dokumen); tombol oranye Masuk sebagai Tamu menampilkan semuanya. Di bagian atas setiap halaman ada teks kecil nama perusahaan dengan tautan **Ganti** / **Semua**. Bila memperbarui dari versi sebelumnya, cukup jalankan `php artisan migrate --force` karena label perusahaan data demo lama diisi otomatis. Untuk instalasi tanpa data demo, isi `PROMISE_COMPANY_NAME=Nama Perusahaan Anda` agar namanya tampil di setiap halaman.
 
 ## 9. Memperbarui program
 

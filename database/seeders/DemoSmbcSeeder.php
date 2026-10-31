@@ -20,22 +20,11 @@ class DemoSmbcSeeder extends DemoMedcoSeeder
 
     protected const PREFIX = 'smbc.';
 
-    public function run(): void
-    {
-        if (Models\Project::where('code', static::MARKER)->exists()) {
-            return;
-        }
-        mt_srand(static::SEED);
-        $this->statusDate = Carbon::parse(self::STATUS_DATE);
+    protected const COMPANY = 'smbc';
 
-        DB::transaction(function () {
-            $this->people();
-            $this->vendors();
-            $portfolios = $this->portfolios();
-            foreach ($this->projects() as $spec) {
-                $this->project($spec, $portfolios[$spec['portfolio']]);
-            }
-        });
+    protected function resourceCodePatterns(): array
+    {
+        return ['SMBC-%'];
     }
 
     protected function people(): void

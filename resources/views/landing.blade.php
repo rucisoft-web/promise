@@ -13,8 +13,10 @@
         ['Risiko', 'Register risiko, matriks probabilitas × dampak 5×5, strategi respons ancaman/peluang, log isu.'],
         ['Pengadaan', 'Paket pengadaan, metode tender, jenis kontrak, vendor, progres dan pembayaran kontrak.'],
     ];
-    $cases = \App\Models\Project::with('portfolio')->orderBy('code')->get();
-    $caseGroups = $cases->groupBy(fn ($c) => str_starts_with((string) $c->portfolio?->code, 'SMBC') ? 'Perbankan · PT Bank SMBC Indonesia Tbk' : 'Energi & pertambangan · PT Medco Energi Internasional Tbk')->sortKeys();
+    $cases = \App\Support\DemoCompany::bypass(fn () => \App\Models\Project::with('portfolio')->orderBy('code')->get());
+    $companyInfo = \App\Support\DemoCompany::COMPANIES;
+    $caseGroups = $cases->groupBy(fn ($c) => isset($companyInfo[$c->company]) ? $companyInfo[$c->company]['sector'].' · '.$companyInfo[$c->company]['name'] : 'Proyek lain')
+        ->sortBy(fn ($list, $group) => $group === 'Proyek lain' ? 'zz' : $group);
     $rag = ['hijau' => '#2E7D4F', 'kuning' => '#D98E04', 'merah' => '#D32F2F'];
 @endphp
 <!doctype html>
@@ -28,7 +30,7 @@
     <meta property="og:description" content="Portofolio, jadwal, biaya, risiko, dan dokumen proyek dalam satu sistem berbasis PMBOK.">
     <meta property="og:image" content="{{ $img('dasbor') }}">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=3">
 </head>
 <body>
 <header class="l-top">
@@ -52,6 +54,10 @@
                 <span class="l-eyebrow">Untuk PMO, manajer proyek, dan direksi</span>
                 <h1>Semua proyek, satu sumber kebenaran.</h1>
                 <p class="l-lead"><b>Promise</b> (Project Management Information System) mengelola portofolio dan proyek mengikuti <b>PMBOK® Guide</b> dari Project Management Institute: piagam, WBS, jadwal Gantt dengan keterkaitan FS/SS/FF/SF, Earned Value, risiko, sumber daya, lembar waktu, pengadaan, dan pusat dokumen digital.</p>
+                @if (count(\App\Support\DemoCompany::available()))
+                    <p class="l-pick">Pilih data demo, lalu masuk sebagai Tamu:</p>
+                    <x-promise.demo-cards variant="landing" />
+                @endif
                 <div class="l-actions">
                     <a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a>
                     <a href="#fitur" class="l-btn">Lihat fiturnya</a>
@@ -143,7 +149,7 @@
         <div class="l-wrap">
             <span class="l-eyebrow">Data demo</span>
             <h2>Dua portofolio contoh: {{ $cases->count() }} proyek energi, pertambangan, dan perbankan</h2>
-            <p class="l-lead">Nama dan gambaran proyek disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk (pengembangan lapangan migas, pembangkit, tambang) dan PT Bank SMBC Indonesia Tbk (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, keuangan berkelanjutan), khusus untuk pembelajaran. Klik "Masuk sebagai Tamu" untuk menjelajah tanpa akun.</p>
+            <p class="l-lead">Nama dan gambaran proyek disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk (pengembangan lapangan migas, pembangkit, tambang) dan PT Bank SMBC Indonesia Tbk (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, keuangan berkelanjutan), khusus untuk pembelajaran. Pilih kartu perusahaan untuk menjelajah datanya tanpa akun, atau klik "Masuk sebagai Tamu" untuk melihat semuanya.</p>
             @foreach ($caseGroups as $group => $list)
                 <h3 class="l-cases-h">{{ $group }} <small>({{ $list->count() }} proyek)</small></h3>
                 <div class="l-cases">
@@ -153,6 +159,10 @@
                 </div>
             @endforeach
             <div class="l-warn"><span><b>{{ \App\Support\DemoData::TITLE }}</b> {{ \App\Support\DemoData::NOTICE }} Mode Tamu hanya melihat, data tidak bisa diubah.</span></div>
+            @if (count(\App\Support\DemoCompany::available()))
+                <p class="l-pick">Pilih data demo yang ingin dijelajahi:</p>
+                <x-promise.demo-cards variant="landing" />
+            @endif
             <div class="l-actions"><a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a></div>
         </div>
     </section>

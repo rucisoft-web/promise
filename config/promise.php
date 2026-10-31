@@ -17,6 +17,9 @@ return [
     // Tanggal status (data date) untuk perhitungan Earned Value; kosong = hari ini
     'status_date' => env('PROMISE_STATUS_DATE'),
 
+    // Nama perusahaan yang ditampilkan kecil di setiap halaman (bila tidak memakai data demo)
+    'company_name' => env('PROMISE_COMPANY_NAME'),
+
     'contact_whatsapp' => env('PROMISE_WHATSAPP', '6281234567890'),
 
     // Akun admin awal yang dibuat oleh DatabaseSeeder

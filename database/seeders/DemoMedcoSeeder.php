@@ -28,6 +28,9 @@ class DemoMedcoSeeder extends Seeder
     /** Awalan kode sumber daya & email agar beberapa demo bisa dipasang bersamaan */
     protected const PREFIX = '';
 
+    /** Label perusahaan (lihat App\Support\DemoCompany) */
+    protected const COMPANY = 'medco';
+
     protected Carbon $statusDate;
 
     /** @var array<string,Models\User> */
@@ -54,7 +57,28 @@ class DemoMedcoSeeder extends Seeder
             foreach ($this->projects() as $spec) {
                 $this->project($spec, $portfolios[$spec['portfolio']]);
             }
+            $this->tagCompany($portfolios);
         });
+    }
+
+    /** @param array<string,Models\Portfolio> $portfolios */
+    protected function tagCompany(array $portfolios): void
+    {
+        $ids = collect($portfolios)->pluck('id');
+        Models\Portfolio::withoutGlobalScopes()->whereIn('id', $ids)->update(['company' => static::COMPANY]);
+        Models\Project::withoutGlobalScopes()->whereIn('portfolio_id', $ids)->update(['company' => static::COMPANY]);
+        Models\Vendor::withoutGlobalScopes()->whereIn('id', collect($this->vendors)->pluck('id'))->update(['company' => static::COMPANY]);
+        Models\Resource::withoutGlobalScopes()->where(function ($q) {
+            foreach ($this->resourceCodePatterns() as $pattern) {
+                $q->orWhere('code', 'like', $pattern);
+            }
+        })->update(['company' => static::COMPANY]);
+    }
+
+    /** @return array<int,string> */
+    protected function resourceCodePatterns(): array
+    {
+        return ['SDM-%', 'ALT-%'];
     }
 
     protected function rnd(float $min, float $max): float

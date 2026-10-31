@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Timesheet extends Model
 {
+    use Concerns\ScopedByProjectCompany;
+
     protected $guarded = ['id'];
 
     protected function casts(): array

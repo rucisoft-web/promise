@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Stakeholder extends Model
 {
+    use Concerns\ScopedByProjectCompany;
+
     protected $guarded = ['id'];
 
     public function project(): BelongsTo

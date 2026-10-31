@@ -14,3 +14,8 @@ Route::middleware(['web', 'throttle:20,1'])
 Route::middleware(['web', 'auth'])
     ->get('/dokumen/{document}', \App\Http\Controllers\DocumentController::class)
     ->name('promise.document');
+
+// Ganti perusahaan data demo yang ditampilkan
+Route::middleware(['web', 'auth'])
+    ->get('/perusahaan-demo/{company}', \App\Http\Controllers\DemoCompanyController::class)
+    ->name('promise.company');

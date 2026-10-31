@@ -65,7 +65,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([Dasbor::class])
             ->widgets([])
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, fn () => Blade::render('<x-promise.guest-login />'))
-            ->renderHook(PanelsRenderHook::CONTENT_START, fn () => Blade::render('<x-promise.guest-banner />'))
+            ->renderHook(PanelsRenderHook::CONTENT_START, fn () => Blade::render('<x-promise.company-bar /><x-promise.guest-banner />'))
             ->renderHook(PanelsRenderHook::USER_MENU_BEFORE, fn () => Blade::render('<x-promise.help-button />'))
             ->renderHook(PanelsRenderHook::FOOTER, fn () => Blade::render('<x-promise.footer />'))
             ->middleware([

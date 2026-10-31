@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Portfolio extends Model
 {
+    use Concerns\BelongsToCompany;
+
     protected $guarded = ['id'];
 
     public function projects(): HasMany

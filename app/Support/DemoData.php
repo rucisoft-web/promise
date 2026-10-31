@@ -23,7 +23,7 @@ class DemoData
     {
         return once(function () {
             try {
-                return Schema::hasTable('projects') && Project::whereIn('code', self::MARKER_CODES)->exists();
+                return Schema::hasTable('projects') && Project::withoutGlobalScopes()->whereIn('code', self::MARKER_CODES)->exists();
             } catch (\Throwable) {
                 return false;
             }
