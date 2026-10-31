@@ -30,7 +30,7 @@
     <meta property="og:description" content="Portofolio, jadwal, biaya, risiko, dan dokumen proyek dalam satu sistem berbasis PMBOK.">
     <meta property="og:image" content="{{ $img('dasbor') }}">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=5">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=7">
 </head>
 <body>
 <header class="l-top">
@@ -42,8 +42,9 @@
             <a href="#fitur">Fitur</a>
             <a href="#data-demo">Data demo</a>
             <a href="#tanya">Tanya jawab</a>
-            <a href="{{ route('promise.workshop') }}">Workshop</a>
+            <a href="{{ route('promise.workshop') }}" class="l-nav-hl">Memanfaatkan Promise</a>
         </nav>
+        <a href="{{ route('promise.workshop') }}" class="l-btn l-btn-sm l-btn-amber l-only-m">Memanfaatkan Promise</a>
         <a href="{{ url('/admin/login') }}" class="l-btn l-btn-sm">Masuk</a>
     </div>
 </header>

@@ -81,6 +81,8 @@ class DemoPagesTest extends TestCase
         $this->get('/workshop')->assertOk()->assertSee('Project Management for Executive')
             ->assertSee('Pusat Studi Manajemen Perguruan Tinggi UIN Sunan Kalijaga')->assertSee('Akses uji coba Promise selama 3 bulan')
             ->assertSee('Instalasi dan Pendampingan')->assertSee('uin-sunan-kalijaga-putih.png', false);
+        config(['promise.guest_login' => true]);
+        $this->get('/')->assertSee('Memanfaatkan Promise')->assertSee(route('promise.workshop'));
     }
 
     public function test_anggota_tidak_bisa_membuka_pengguna(): void

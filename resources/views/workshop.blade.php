@@ -52,19 +52,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Workshop Project Management for Executive · Promise</title>
+    <title>Memanfaatkan Promise · Workshop Project Management for Executive</title>
     <meta name="description" content="Workshop 2 hari Project Management for Executive: mengenal Promise (Project Management Information System) bersama {{ $partner }}. Termasuk akses uji coba Promise 3 bulan.">
     <meta property="og:title" content="Workshop Project Management for Executive · Promise">
     <meta property="og:description" content="Workshop 2 hari mengenal Promise bersama {{ $partner }}.">
     <meta property="og:image" content="{{ asset('images/kenali/dasbor.jpg') }}?v=2">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=5">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=7">
 </head>
 <body>
 <header class="l-top">
     <div class="l-wrap l-top-in">
         <a href="{{ url('/') }}"><picture><source srcset="{{ asset('images/promise-logo-dark.svg') }}?v=2" media="(prefers-color-scheme: dark)"><img src="{{ asset('images/promise-logo.svg') }}?v=2" alt="Promise" class="l-logo"></picture></a>
         <nav class="l-nav" aria-label="Navigasi workshop">
+            <a href="{{ url('/') }}">Beranda</a>
             <a href="#manfaat">Manfaat</a>
             <a href="#materi">Materi</a>
             <a href="#didapat">Yang didapat</a>

@@ -142,3 +142,8 @@ p { margin: 0 0 .6rem; }
 .l-workshop h2 { color: #fff; margin: .2rem 0; font-size: 1.3rem; }
 .l-workshop p { margin: 0; color: #C9D6E8; font-size: .92rem; max-width: 46rem; }
 .l-workshop img { height: 36px; width: auto; }
+.l-nav a.l-nav-hl { color: var(--amber); font-weight: 700; }
+.l-only-m { display: none; }
+@media (max-width: 860px) { .l-only-m { display: inline-flex; margin-left: auto; } .l-only-m + .l-btn { margin-left: .4rem; } }
+@media (max-width: 860px) { .l-only-m { white-space: nowrap; font-size: .76rem; padding: .4rem .6rem; } .l-top-in .l-btn-sm { white-space: nowrap; } }
+@media (max-width: 400px) { .l-top-in .l-logo { height: 30px; width: auto; } }
