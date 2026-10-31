@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('code', 20)->unique();
             $table->string('name');
             $table->string('business_unit', 40)->nullable();
-            $table->string('project_type', 40)->nullable();
+            $table->string('project_type', 100)->nullable();
             $table->string('location')->nullable();
             $table->foreignId('manager_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('sponsor')->nullable();

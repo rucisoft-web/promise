@@ -64,7 +64,7 @@ class ProjectResource extends Resource
                     TextInput::make('name')->label('Nama proyek')->required()->columnSpan(2),
                     Select::make('portfolio_id')->label('Portofolio / program')->options(fn () => Portfolio::orderBy('code')->pluck('name', 'id'))->searchable(),
                     Select::make('business_unit')->label('Unit bisnis')->options(Pmbok::BUSINESS_UNITS)->native(false),
-                    TextInput::make('project_type')->label('Jenis proyek')->placeholder('mis. Pengembangan lapangan offshore'),
+                    TextInput::make('project_type')->label('Jenis proyek')->maxLength(100)->placeholder('mis. Pengembangan lapangan offshore'),
                     TextInput::make('location')->label('Lokasi'),
                     Select::make('manager_id')->label('Manajer proyek')->options(fn () => User::whereIn('role', ['admin', 'pmo', 'manajer'])->orderBy('name')->pluck('name', 'id'))->searchable(),
                     TextInput::make('sponsor')->label('Sponsor proyek'),
