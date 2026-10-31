@@ -52,6 +52,9 @@ class Pmbok
         'hulu_migas' => 'Hulu Minyak & Gas',
         'ketenagalistrikan' => 'Ketenagalistrikan',
         'tambang' => 'Tambang Tembaga & Emas',
+        'perbankan' => 'Perbankan Digital',
+        'teknologi' => 'Operasional & Teknologi',
+        'keberlanjutan' => 'Keuangan Berkelanjutan',
         'korporat' => 'Korporat & Pendukung',
     ];
 
@@ -62,7 +65,7 @@ class Pmbok
     public const RISK_CATEGORIES = [
         'teknis' => 'Teknis', 'hsse' => 'HSSE', 'komersial' => 'Komersial', 'regulasi' => 'Regulasi & Perizinan',
         'pengadaan' => 'Pengadaan & Rantai Pasok', 'eksternal' => 'Eksternal/Alam', 'organisasi' => 'Organisasi & SDM',
-        'keuangan' => 'Keuangan',
+        'keuangan' => 'Keuangan', 'siber' => 'Keamanan Siber & TI',
     ];
 
     /** Strategi respons risiko PMBOK: ancaman dan peluang. */

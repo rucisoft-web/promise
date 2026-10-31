@@ -86,7 +86,7 @@ PROMISE_STATUS_DATE=
 PROMISE_ADMIN_EMAIL=admin@domainanda.com
 PROMISE_ADMIN_PASSWORD=
 
-# data demo portofolio MedcoEnergi: biarkan false untuk pemakaian sungguhan
+# data demo (MedcoEnergi & SMBC Indonesia): biarkan false untuk pemakaian sungguhan
 PROMISE_SEED_DEMO=false
 # situs demo/promosi: tombol "Masuk sebagai Tamu" (hanya lihat), lihat bagian 8
 PROMISE_GUEST_LOGIN=false
@@ -141,17 +141,23 @@ Dokumen tersimpan privat di `promise/storage/app/private/dokumen` dan hanya bisa
 
 ### Data demo (untuk presentasi)
 
-Portofolio contoh berisi 17 proyek bertema MedcoEnergi (hulu migas, ketenagalistrikan, tambang, korporat) dengan WBS level 2, 277 keterkaitan tugas, Earned Value bulanan, risiko, kontrak, lembar waktu, dan ±120 dokumen contoh. Muat dengan:
+Tersedia dua portofolio contoh, masing-masing dengan WBS level 2, keterkaitan tugas FS/SS/FF/SF, Earned Value bulanan, risiko, kontrak, lembar waktu, dan dokumen contoh:
+
+1. **MedcoEnergi** (`DemoMedcoSeeder`): 17 proyek hulu migas, ketenagalistrikan, tambang, dan transformasi korporat.
+2. **SMBC Indonesia** (`DemoSmbcSeeder`): 12 proyek perbankan, yaitu peningkatan core banking, AI generatif, adopsi cloud, XDR & WAF, konsolidasi aplikasi, kualitas data laporan, pusat data pemulihan (DR), fitur Jenius, TOUCHBIZ, penguatan peran PIKK, pembiayaan berkelanjutan, dan transformasi digital HR. Anggaran ditampilkan dalam setara US$ agar bisa dibandingkan dalam satu portofolio.
+
+Muat keduanya dengan `PROMISE_SEED_DEMO=true` sebelum `migrate --seed`, atau satu per satu:
 
 ```bash
 cd ~/promise
 php artisan db:seed --class=DemoMedcoSeeder --force
+php artisan db:seed --class=DemoSmbcSeeder --force
 php artisan optimize:clear && php artisan optimize
 ```
 
-(atau `PROMISE_SEED_DEMO=true` sebelum `migrate --seed`). Perintah dilewati bila demo sudah ada. Akun demo memakai domain `@contoh.local` dengan kata sandi `Promise-2026!`, jadi **jangan memuat demo di situs sungguhan** yang bisa diakses publik.
+Setiap perintah dilewati bila demo tersebut sudah ada. Akun demo SMBC memakai awalan `smbc.` (mis. `smbc.pmo@contoh.local`). Akun demo memakai domain `@contoh.local` dengan kata sandi `Promise-2026!`, jadi **jangan memuat demo di situs sungguhan** yang bisa diakses publik.
 
-> **Peringatan: DATA DEMO, bukan proyek yang sesungguhnya.** Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan. Selama data demo terpasang, peringatan ini tampil otomatis di setiap halaman aplikasi, halaman login, halaman depan, dan di setiap dokumen contoh (PDF, XLSX, DOCX, JPG).
+> **Peringatan: DATA DEMO, bukan proyek yang sesungguhnya.** Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk dan PT Bank SMBC Indonesia Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan tersebut. Selama data demo terpasang, peringatan ini tampil otomatis di setiap halaman aplikasi, halaman login, halaman depan, dan di setiap dokumen contoh (PDF, XLSX, DOCX, JPG).
 
 ### Situs demo untuk pengunjung (akses Tamu)
 

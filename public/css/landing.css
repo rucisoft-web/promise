@@ -82,3 +82,4 @@ p { margin: 0 0 .6rem; }
 .l-faq summary { cursor: pointer; font-weight: 650; }
 .l-faq p { color: var(--tinta-2); margin: .5rem 0 0; font-size: .92rem; }
 .l-foot { border-top: 1px solid var(--garis); padding: 1.5rem 0 2rem; font-size: .8rem; color: var(--tinta-2); text-align: center; }
+.l-cases-h { margin-top: 1.4rem; font-size: 1rem; font-weight: 700; } .l-cases-h small { font-weight: 400; color: var(--tinta-2); }

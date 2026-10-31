@@ -12,9 +12,10 @@ Sistem informasi manajemen proyek berbasis web yang mengacu pada **PMBOK® Guide
 - **Pusat Dokumen**: unggah PDF, DOC/DOCX, XLS/XLSX, PPT/PPTX, PNG, JPG (maks. 20 MB) ke proyek, tugas WBS, risiko, isu, perubahan, mutu, kontrak, laporan status; disimpan privat, unduh/pratinjau setelah login.
 - Peran: Administrator, PMO, Manajer Proyek (hanya proyeknya), Anggota Tim, Eksekutif (lihat), Tamu (demo, hanya lihat).
 - Halaman depan promosi dan tombol **Masuk sebagai Tamu** (`PROMISE_GUEST_LOGIN=true`).
-- Data demo 17 proyek bertema MedcoEnergi 2025 dengan WBS level 2.
+- Dua data demo dengan WBS level 2: 17 proyek bertema MedcoEnergi 2025 dan 12 proyek bertema SMBC Indonesia 2025 (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, PIKK, ESG).
+- Dasbor yang bisa diklik menuju detail, dan tombol **Bantuan** di setiap layar (konsep PMBOK, data yang diisi, contoh, tangkapan layar).
 
-> **DATA DEMO, bukan proyek yang sesungguhnya.** Data contoh hanya untuk keperluan pembelajaran dan peragaan fitur; jadwal, anggaran, progres, risiko, vendor, personel, dan dokumen adalah simulasi, bukan data resmi PT Medco Energi Internasional Tbk. Peringatan ini tampil otomatis di aplikasi selama data demo terpasang.
+> **DATA DEMO, bukan proyek yang sesungguhnya.** Data contoh hanya untuk keperluan pembelajaran dan peragaan fitur; jadwal, anggaran, progres, risiko, vendor, personel, dan dokumen adalah simulasi, bukan data resmi PT Medco Energi Internasional Tbk maupun PT Bank SMBC Indonesia Tbk. Peringatan ini tampil otomatis di aplikasi selama data demo terpasang.
 
 ## Teknologi
 

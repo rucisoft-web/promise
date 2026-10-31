@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         }
 
         if (! app()->isProduction() || config('promise.seed_demo')) {
-            $this->call(DemoMedcoSeeder::class);
+            $this->call([DemoMedcoSeeder::class, DemoSmbcSeeder::class]);
         }
     }
 }

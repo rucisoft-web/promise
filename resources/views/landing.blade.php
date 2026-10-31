@@ -13,7 +13,8 @@
         ['Risiko', 'Register risiko, matriks probabilitas × dampak 5×5, strategi respons ancaman/peluang, log isu.'],
         ['Pengadaan', 'Paket pengadaan, metode tender, jenis kontrak, vendor, progres dan pembayaran kontrak.'],
     ];
-    $cases = \App\Models\Project::orderBy('code')->get();
+    $cases = \App\Models\Project::with('portfolio')->orderBy('code')->get();
+    $caseGroups = $cases->groupBy(fn ($c) => str_starts_with((string) $c->portfolio?->code, 'SMBC') ? 'Perbankan · PT Bank SMBC Indonesia Tbk' : 'Energi & pertambangan · PT Medco Energi Internasional Tbk')->sortKeys();
     $rag = ['hijau' => '#2E7D4F', 'kuning' => '#D98E04', 'merah' => '#D32F2F'];
 @endphp
 <!doctype html>
@@ -27,7 +28,7 @@
     <meta property="og:description" content="Portofolio, jadwal, biaya, risiko, dan dokumen proyek dalam satu sistem berbasis PMBOK.">
     <meta property="og:image" content="{{ $img('dasbor') }}">
     <link rel="icon" href="{{ asset('images/favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v=2">
 </head>
 <body>
 <header class="l-top">
@@ -141,13 +142,16 @@
     <section class="l-section l-alt" id="data-demo">
         <div class="l-wrap">
             <span class="l-eyebrow">Data demo</span>
-            <h2>Portofolio contoh: {{ $cases->count() }} proyek energi & pertambangan</h2>
-            <p class="l-lead">Nama proyek, lokasi, kapasitas, dan tonggak utama disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk. Klik "Masuk sebagai Tamu" untuk menjelajah tanpa akun.</p>
-            <div class="l-cases">
-                @foreach ($cases as $c)
-                    <div class="l-case"><i style="background: {{ $rag[$c->health()] ?? '#64748B' }}"></i><div><b>{{ $c->name }}</b><small>{{ $c->code }} · {{ \App\Support\Pmbok::PHASES[$c->phase] ?? $c->phase }} · {{ $c->location }}</small></div></div>
-                @endforeach
-            </div>
+            <h2>Dua portofolio contoh: {{ $cases->count() }} proyek energi, pertambangan, dan perbankan</h2>
+            <p class="l-lead">Nama dan gambaran proyek disarikan dari Laporan Tahunan 2025 PT Medco Energi Internasional Tbk (pengembangan lapangan migas, pembangkit, tambang) dan PT Bank SMBC Indonesia Tbk (core banking, AI generatif, cloud, keamanan siber, Jenius, TOUCHBIZ, keuangan berkelanjutan), khusus untuk pembelajaran. Klik "Masuk sebagai Tamu" untuk menjelajah tanpa akun.</p>
+            @foreach ($caseGroups as $group => $list)
+                <h3 class="l-cases-h">{{ $group }} <small>({{ $list->count() }} proyek)</small></h3>
+                <div class="l-cases">
+                    @foreach ($list as $c)
+                        <div class="l-case"><i style="background: {{ $rag[$c->health()] ?? '#64748B' }}"></i><div><b>{{ $c->name }}</b><small>{{ $c->code }} · {{ \App\Support\Pmbok::PHASES[$c->phase] ?? $c->phase }} · {{ $c->location }}</small></div></div>
+                    @endforeach
+                </div>
+            @endforeach
             <div class="l-warn"><span><b>{{ \App\Support\DemoData::TITLE }}</b> {{ \App\Support\DemoData::NOTICE }} Mode Tamu hanya melihat, data tidak bisa diubah.</span></div>
             <div class="l-actions"><a href="{{ $guest }}" class="l-btn l-btn-amber">Masuk sebagai Tamu</a></div>
         </div>

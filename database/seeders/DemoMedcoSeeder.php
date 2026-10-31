@@ -20,6 +20,14 @@ class DemoMedcoSeeder extends Seeder
 
     public const PASSWORD = 'Promise-2026!';
 
+    /** Kode proyek penanda demo sudah terpasang */
+    public const MARKER = 'NTN-FRL';
+
+    protected const SEED = 2025;
+
+    /** Awalan kode sumber daya & email agar beberapa demo bisa dipasang bersamaan */
+    protected const PREFIX = '';
+
     protected Carbon $statusDate;
 
     /** @var array<string,Models\User> */
@@ -33,10 +41,10 @@ class DemoMedcoSeeder extends Seeder
 
     public function run(): void
     {
-        if (Models\Project::where('code', 'NTN-FRL')->exists()) {
+        if (Models\Project::where('code', static::MARKER)->exists()) {
             return;
         }
-        mt_srand(2025);
+        mt_srand(static::SEED);
         $this->statusDate = Carbon::parse(self::STATUS_DATE);
 
         DB::transaction(function () {
@@ -74,7 +82,7 @@ class DemoMedcoSeeder extends Seeder
         ];
         foreach ($users as [$key, $name, $role, $title]) {
             $this->users[$key] = Models\User::forceCreate([
-                'name' => $name, 'email' => $key.'@contoh.local', 'password' => self::PASSWORD,
+                'name' => $name, 'email' => static::PREFIX.$key.'@contoh.local', 'password' => self::PASSWORD,
                 'job_title' => $title, 'role' => $role, 'is_active' => true,
             ]);
         }
@@ -120,9 +128,9 @@ class DemoMedcoSeeder extends Seeder
         ];
         foreach ($pool as $i => [$name, $disc, $dept, $rate, $user]) {
             $this->resources[] = Models\Resource::create([
-                'code' => sprintf('SDM-%03d', $i + 1), 'name' => $name, 'discipline' => $disc, 'department' => $dept,
+                'code' => sprintf('%sSDM-%03d', static::PREFIX ? strtoupper(rtrim(static::PREFIX, '.')).'-' : '', $i + 1), 'name' => $name, 'discipline' => $disc, 'department' => $dept,
                 'type' => $i >= 33 ? 'kontraktor' : 'tenaga_kerja', 'cost_rate' => $rate, 'capacity_hours' => 40,
-                'email' => strtolower(str_replace(' ', '.', $name)).'@contoh.local',
+                'email' => static::PREFIX.strtolower(str_replace(' ', '.', $name)).'@contoh.local',
                 'user_id' => $user ? $this->users[$user]->id : null,
             ]);
         }
@@ -276,12 +284,7 @@ class DemoMedcoSeeder extends Seeder
             'start_date' => $start, 'finish_date' => $finish->copy()->addDays($slip), 'baseline_start' => $start, 'baseline_finish' => $finish,
             'status_date' => $this->statusDate, 'budget' => $s['budget'], 'contingency' => round($s['budget'] * 0.08, -4),
             'description' => $s['desc'], 'objectives' => $s['objectives'],
-            'justification' => 'Selaras dengan tema strategis MedcoEnergi 2025 "Nilai. Fokus. Pertumbuhan.": alokasi modal yang disiplin, keunggulan operasional, dan investasi selektif untuk meningkatkan skala.',
-            'success_criteria' => "Selesai sesuai baseline jadwal (SPI ≥ 0,95)\nBiaya dalam anggaran (CPI ≥ 0,95)\nNol LTI & kepatuhan HSSE\nDeliverable diterima pemilik aset",
-            'scope_statement' => 'Lingkup mencakup seluruh deliverable pada WBS level 1 dan paket kerja level 2, dari perencanaan hingga serah terima ke operasi.',
-            'out_of_scope' => 'Operasi rutin setelah serah terima, pemeliharaan jangka panjang, dan kegiatan pemasaran produk.',
-            'assumptions' => "Persetujuan regulator sesuai jadwal\nHarga material sesuai estimasi kelas 3\nPendanaan proyek tersedia",
-            'constraints' => "Jendela cuaca/musim untuk pekerjaan lapangan\nKetentuan TKDN\nBatas anggaran FID",
+            ...$this->charter($s),
         ]);
 
         $wp = $this->wbs($p, $s, $start, $finish, $statusDate, $slip);
@@ -302,16 +305,35 @@ class DemoMedcoSeeder extends Seeder
         DemoFiles::forProject($p);
     }
 
+    /** Isian piagam yang sama untuk semua proyek demo ini */
+    protected function charter(array $s): array
+    {
+        return [
+            'justification' => 'Selaras dengan tema strategis MedcoEnergi 2025 "Nilai. Fokus. Pertumbuhan.": alokasi modal yang disiplin, keunggulan operasional, dan investasi selektif untuk meningkatkan skala.',
+            'success_criteria' => "Selesai sesuai baseline jadwal (SPI ≥ 0,95)\nBiaya dalam anggaran (CPI ≥ 0,95)\nNol LTI & kepatuhan HSSE\nDeliverable diterima pemilik aset",
+            'scope_statement' => 'Lingkup mencakup seluruh deliverable pada WBS level 1 dan paket kerja level 2, dari perencanaan hingga serah terima ke operasi.',
+            'out_of_scope' => 'Operasi rutin setelah serah terima, pemeliharaan jangka panjang, dan kegiatan pemasaran produk.',
+            'assumptions' => "Persetujuan regulator sesuai jadwal\nHarga material sesuai estimasi kelas 3\nPendanaan proyek tersedia",
+            'constraints' => "Jendela cuaca/musim untuk pekerjaan lapangan\nKetentuan TKDN\nBatas anggaran FID",
+        ];
+    }
+
+    /** Penanggung jawab paket kerja WBS, bergiliran */
+    protected function wbsOwners(): array
+    {
+        return ['Rizky Maulana', 'Agus Setiawan', 'Teguh Prasetyo', 'Indra Gunawan', 'Wulan Sari', 'Hari Kurniawan', 'Joko Susilo', 'Rina Wijayanti', 'Bayu Saputra', 'Lukman Hakim', 'Sri Handayani', 'Kartika Dewi'];
+    }
+
     /** @return array<int,Models\WbsItem> paket kerja */
     protected function wbs(Models\Project $p, array $s, Carbon $start, Carbon $finish, Carbon $statusDate, int $slip): array
     {
         $days = $start->diffInDays($finish);
         $at = fn (float $f) => $start->copy()->addDays((int) round($f * $days));
-        $resources = ['Rizky Maulana', 'Agus Setiawan', 'Teguh Prasetyo', 'Indra Gunawan', 'Wulan Sari', 'Hari Kurniawan', 'Joko Susilo', 'Rina Wijayanti', 'Bayu Saputra', 'Lukman Hakim', 'Sri Handayani', 'Kartika Dewi'];
+        $resources = $this->wbsOwners();
         $sort = 0;
         $tops = [];
         $items = [];
-        foreach (Templates::wbs($s['type']) as $n => [$name, $weight, $fs, $fe, $deliverable, $children]) {
+        foreach ($this->wbsTemplate($s['type']) as $n => [$name, $weight, $fs, $fe, $deliverable, $children]) {
             $tops[$n] = Models\WbsItem::create([
                 'project_id' => $p->id, 'code' => (string) ($n + 1), 'name' => $name, 'deliverable' => $deliverable,
                 'sort' => $sort++, 'start_date' => $at($fs), 'finish_date' => $at($fe),
@@ -436,12 +458,7 @@ class DemoMedcoSeeder extends Seeder
 
     protected function team(Models\Project $p, array $s, Carbon $start, Carbon $finish): void
     {
-        $roles = match ($s['unit']) {
-            'hulu_migas' => [['Perencanaan & penjadwalan', 'Planner'], ['Pengendalian biaya', 'Cost Controller'], ['Rekayasa proses', 'Lead Process Engineer'], ['Rekayasa pengeboran', 'Drilling Engineer'], ['Pengadaan & kontrak', 'Procurement Lead'], ['QA/QC', 'QA/QC Lead'], ['HSSE', 'HSSE Lead'], ['Geologi & geofisika', 'Subsurface Lead']],
-            'ketenagalistrikan' => [['Perencanaan & penjadwalan', 'Planner'], ['Pengendalian biaya', 'Cost Controller'], ['Teknik panas bumi', 'Lead Engineer'], ['Rekayasa listrik & instrumen', 'E&I Engineer'], ['Konstruksi & site manager', 'Site Manager'], ['Commissioning', 'Commissioning Lead'], ['Lingkungan & AMDAL', 'Environmental Specialist'], ['Hubungan pemerintah & perizinan', 'Permitting Lead']],
-            'tambang' => [['Perencanaan & penjadwalan', 'Planner'], ['Pengendalian biaya', 'Cost Controller'], ['Metalurgi & pengolahan mineral', 'Process Lead'], ['Konstruksi & site manager', 'Construction Manager'], ['Keselamatan konstruksi', 'HSE Lead'], ['Pengadaan & kontrak', 'Contracts Lead'], ['Lingkungan & AMDAL', 'Environmental Lead'], ['Analis keuangan proyek', 'Project Finance']],
-            default => [['Perencanaan & penjadwalan', 'PMO Analyst'], ['Analis keuangan proyek', 'Value Tracking'], ['Sistem informasi & data', 'Data & Dashboard Lead'], ['Hubungan masyarakat & PPM', 'Change Management']],
-        };
+        $roles = $this->teamRoles($s['unit']);
         $pm = Models\Resource::where('user_id', $p->manager_id)->first();
         $team = [[$pm, 'Manajer Proyek', 100]];
         $used = [];
@@ -492,7 +509,7 @@ class DemoMedcoSeeder extends Seeder
 
     protected function risksAndIssues(Models\Project $p, array $s): void
     {
-        $pool = Templates::risks($s['type']);
+        $pool = $this->riskPool($s['type']);
         $n = $s['status'] === 'selesai' ? 5 : mt_rand(7, 9);
         $owners = Models\Assignment::where('project_id', $p->id)->with('resource')->get()->pluck('resource.name')->filter()->values();
         $stress = $s['spi'] < 0.9 || $s['cpi'] < 0.9;
@@ -518,10 +535,7 @@ class DemoMedcoSeeder extends Seeder
                 ]);
             }
         }
-        $issues = [
-            ['Persetujuan desain dari pemilik aset tertunda', 'sedang'], ['Kekurangan izin kerja panas (hot work permit) di lokasi', 'rendah'],
-            ['Perbedaan kuantitas material antara BOQ dan gambar IFC', 'sedang'], ['Akses data dari kontraktor belum lengkap', 'rendah'],
-        ];
+        $issues = $this->issueList();
         foreach (array_slice($issues, 0, mt_rand(2, 4)) as $j => [$t, $prio]) {
             $closed = $s['status'] === 'selesai' || $j % 2 === 1;
             Models\Issue::create([
@@ -536,13 +550,7 @@ class DemoMedcoSeeder extends Seeder
 
     protected function changes(Models\Project $p, array $s): void
     {
-        $list = [
-            ['Penambahan lingkup sistem pemantauan emisi daring', 'lingkup', 0.006, 14],
-            ['Percepatan jadwal untuk jendela cuaca', 'jadwal', 0.004, -21],
-            ['Penggantian spesifikasi material ke duplex stainless steel', 'mutu', 0.009, 10],
-            ['Penyesuaian nilai kontrak akibat eskalasi harga', 'biaya', 0.012, 0],
-            ['Penambahan paket pengadaan suku cadang commissioning', 'pengadaan', 0.003, 0],
-        ];
+        $list = $this->changeList();
         $base = $s['status'] === 'selesai' ? Carbon::parse($s['finish'])->subMonths(8) : $this->statusDate->copy()->subMonths(6);
         foreach (array_slice($list, 0, mt_rand(2, 4)) as $i => [$t, $cat, $frac, $days]) {
             $st = $s['status'] === 'selesai' ? ($i === 2 ? 'ditolak' : 'disetujui') : ['disetujui', 'dianalisis', 'diajukan', 'ditolak'][$i];
@@ -561,14 +569,7 @@ class DemoMedcoSeeder extends Seeder
     /** @param array<int,Models\WbsItem> $wp */
     protected function quality(Models\Project $p, array $s, array $wp): void
     {
-        $checks = [
-            ['Tinjauan desain 60% & 90%', 'tinjauan', 'Standar desain perusahaan', 'Semua komentar kategori A ditutup'],
-            ['Inspeksi las & NDT', 'inspeksi', 'AWS D1.1 / ASME IX', 'Tingkat penolakan las < 2%'],
-            ['Factory Acceptance Test peralatan utama', 'fat', 'Spesifikasi pembelian', 'Lulus seluruh parameter uji'],
-            ['Uji hidrostatik sistem perpipaan', 'uji', 'ASME B31.3', 'Tidak ada kebocoran selama 4 jam'],
-            ['Audit sistem mutu kontraktor', 'audit', 'ISO 9001:2015', 'Tidak ada temuan mayor'],
-            ['Uji fungsi sistem kontrol (SAT)', 'uji', 'IEC 61511', 'Seluruh loop berfungsi'],
-        ];
+        $checks = $this->qualityList();
         foreach ($checks as $i => [$t, $type, $std, $crit]) {
             $item = $wp[min(count($wp) - 1, (int) floor($i / count($checks) * count($wp)))] ?? null;
             $date = $item?->baseline_finish ?? $this->statusDate;
@@ -582,7 +583,7 @@ class DemoMedcoSeeder extends Seeder
                 'title' => $t, 'check_type' => $type, 'standard' => $std, 'acceptance_criteria' => $crit,
                 'planned_date' => $date, 'actual_date' => $past ? $date->copy()->addDays(mt_rand(0, 6)) : null,
                 'result' => $result, 'defects' => $result === 'lulus' ? mt_rand(0, 2) : ($result === 'terjadwal' ? 0 : mt_rand(3, 9)),
-                'inspector' => ['Sri Handayani', 'Taufik Hidayat'][$i % 2],
+                'inspector' => $this->inspectors()[$i % 2],
                 'notes' => $result === 'gagal' ? 'Perbaikan dan uji ulang dijadwalkan; NCR diterbitkan.' : null,
             ]);
         }
@@ -590,18 +591,7 @@ class DemoMedcoSeeder extends Seeder
 
     protected function stakeholders(Models\Project $p, array $s): void
     {
-        $common = [
-            ['Direksi MedcoEnergi', 'Direksi', 'PT Medco Energi Internasional Tbk', 'internal', 5, 5, 'pendukung', 'Laporan bulanan & tinjauan gerbang'],
-            ['Tim Operasi Aset', 'Asset Manager', 'MedcoEnergi', 'internal', 3, 5, 'pendukung', 'Keterlibatan sejak desain untuk kesiapan operasi'],
-            ['Masyarakat sekitar lokasi', 'Tokoh masyarakat', 'Desa/kecamatan sekitar', 'masyarakat', 2, 4, 'netral', 'Sosialisasi, PPM, rekrutmen tenaga lokal'],
-            ['Kontraktor utama', 'Project Director', 'Kontraktor EPC/EPCI', 'pemasok', 3, 4, 'pendukung', 'Rapat kemajuan mingguan'],
-        ];
-        $specific = match ($s['unit']) {
-            'hulu_migas' => [['SKK Migas', 'Kepala Divisi Proyek', 'SKK Migas', 'regulator', 5, 4, 'netral', 'Pelaporan rutin, persetujuan AFE & POD'], ['Mitra PSC', 'Wakil mitra', 'Mitra hak partisipasi', 'mitra', 4, 4, 'pendukung', 'Operating committee triwulanan'], ['Pembeli gas/minyak', 'Commercial', 'Offtaker', 'pelanggan', 3, 5, 'pendukung', 'Informasi jadwal first gas/oil']],
-            'ketenagalistrikan' => [['PT PLN (Persero)', 'Divisi EBT', 'PLN', 'pelanggan', 5, 5, 'pendukung', 'Koordinasi PPA, interkoneksi & COD'], ['Ditjen EBTKE', 'Direktorat Panas Bumi', 'Kementerian ESDM', 'regulator', 4, 3, 'netral', 'Pelaporan perizinan'], ['Lender proyek', 'Agent bank', 'Sindikasi perbankan', 'mitra', 4, 4, 'netral', 'Laporan lender engineer']],
-            'tambang' => [['Kementerian ESDM (Minerba)', 'Ditjen Minerba', 'Kementerian ESDM', 'regulator', 5, 4, 'netral', 'Pelaporan RKAB & hilirisasi'], ['Pemda Sumbawa Barat', 'Bupati', 'Pemerintah Kabupaten', 'regulator', 4, 4, 'pendukung', 'Koordinasi tenaga kerja & infrastruktur'], ['PT Amman Mineral Internasional Tbk', 'Direksi', 'AMMN', 'internal', 5, 5, 'pendukung', 'Tinjauan proyek bulanan']],
-            default => [['Manajemen aset Medco Power', 'GM Aset', 'Medco Power', 'internal', 4, 5, 'netral', 'Lokakarya inisiatif & coaching'], ['Konsultan transformasi', 'Partner', 'Konsultan internasional', 'pemasok', 3, 4, 'pendukung', 'Rapat PMO mingguan']],
-        };
+        [$common, $specific] = $this->stakeholderList($s['unit']);
         foreach (array_merge($specific, $common) as [$name, $pos, $org, $cat, $pow, $int, $att, $strat]) {
             Models\Stakeholder::create(['project_id' => $p->id, 'name' => $name, 'position' => $pos, 'organization' => $org, 'category' => $cat, 'power' => $pow, 'interest' => $int, 'attitude' => $att, 'engagement_strategy' => $strat]);
         }
@@ -619,18 +609,7 @@ class DemoMedcoSeeder extends Seeder
 
     protected function contracts(Models\Project $p, array $s, Carbon $start, Carbon $finish): void
     {
-        $sets = [
-            'offshore' => [['NRL', 'Kontrak EPCI fasilitas lepas pantai', 'epci', 0.42], ['SDS', 'Jasa pengeboran & rig jack-up', 'unit_price', 0.22], ['KPI', 'Pengadaan pipa, katup & wellhead', 'lump_sum', 0.10], ['LOG', 'Logistik marine & kapal pendukung', 'tm', 0.05]],
-            'drilling' => [['SDS', 'Sewa rig & jasa pengeboran terpadu', 'unit_price', 0.55], ['KPI', 'Casing, tubing & wellhead', 'lump_sum', 0.18], ['LOG', 'Logistik & supply vessel', 'tm', 0.06]],
-            'onshore' => [['KSB', 'EPC fasilitas produksi gas', 'lump_sum', 0.38], ['SDS', 'Jasa pengeboran sumur pengembangan', 'unit_price', 0.25], ['KPI', 'Pipa transmisi & material', 'lump_sum', 0.12], ['ENV', 'Studi AMDAL & pemantauan lingkungan', 'lump_sum', 0.01]],
-            'geothermal' => [['GEO', 'EPC pembangkit & SAGS', 'epci', 0.45], ['SDS', 'Pengeboran sumur produksi & reinjeksi', 'unit_price', 0.22], ['TRF', 'Gardu induk & SUTT 150 kV', 'lump_sum', 0.07]],
-            'ccgt' => [['TRB', 'Pasokan HRSG & turbin uap', 'lump_sum', 0.40], ['KSB', 'Konstruksi sipil & instalasi', 'unit_price', 0.20], ['ELK', 'Integrasi DCS & instrumentasi', 'lump_sum', 0.06]],
-            'solar' => [['SLR', 'EPC PLTS 25 MWp', 'epci', 0.70], ['TRF', 'Trafo & gardu hubung', 'lump_sum', 0.08]],
-            'exploration' => [['SDS', 'Pengeboran eksplorasi panas bumi', 'unit_price', 0.45], ['KSB', 'Jalan akses & wellpad', 'unit_price', 0.15], ['ENV', 'UKL-UPL & survei geosains', 'lump_sum', 0.06]],
-            'mining' => [['MIN', 'Pasokan SAG mill, ball mill & flotasi', 'lump_sum', 0.28], ['KSB', 'Pekerjaan tanah, fondasi & struktur', 'unit_price', 0.22], ['ELK', 'Kelistrikan & sistem kontrol pabrik', 'lump_sum', 0.10], ['LOG', 'Logistik heavy-lift', 'tm', 0.03]],
-            'study' => [['MIN', 'Konsultan FEED pabrik pengolahan', 'cost_plus', 0.30], ['ENV', 'Studi ANDAL & konsultasi publik', 'lump_sum', 0.08], ['SDS', 'Pengeboran inti konfirmasi', 'unit_price', 0.25]],
-            'transformation' => [['MGT', 'Konsultan transformasi operasional', 'tm', 0.55], ['ELK', 'Platform dasbor KPI', 'lump_sum', 0.10]],
-        ][$s['type']];
+        $sets = $this->contractSets()[$s['type']];
         $days = $start->diffInDays($finish);
         foreach ($sets as $i => [$v, $title, $type, $frac]) {
             $value = round($s['budget'] * $frac, -4);
@@ -691,16 +670,123 @@ class DemoMedcoSeeder extends Seeder
                 'planned_percent' => round($pvs[$i] / max(1, $final['bac']) * 100, 2), 'actual_percent' => round($ev / max(1, $final['bac']) * 100, 2),
                 'pv' => round($pvs[$i], 2), 'ev' => round($ev, 2), 'ac' => round($ac, 2),
                 'summary' => sprintf('Progres %s%% (rencana %s%%), SPI %s, CPI %s.', number_format($ev / max(1, $final['bac']) * 100, 1, ',', '.'), number_format($pvs[$i] / max(1, $final['bac']) * 100, 1, ',', '.'), number_format($spiNow, 2, ',', '.'), number_format($cpiNow, 2, ',', '.')),
-                'achievements' => 'Pekerjaan paket kerja berjalan sesuai rencana kerja bulanan; tidak ada insiden LTI.',
+                'achievements' => $this->reportAchievement(),
                 'next_steps' => 'Lanjutkan paket kerja jalur kritis dan tindak lanjuti risiko teratas.',
-                'prepared_by' => 'Rizky Maulana',
+                'prepared_by' => $this->wbsOwners()[0],
             ]);
         }
     }
 
     protected function lessons(Models\Project $p, array $s): void
     {
-        $list = match ($s['code']) {
+        $list = $this->lessonList($s['code']);
+        foreach ($list as [$area, $kind, $title, $desc, $rec]) {
+            Models\LessonLearned::create(['project_id' => $p->id, 'knowledge_area' => $area, 'kind' => $kind, 'title' => $title, 'description' => $desc, 'recommendation' => $rec,
+                'recorded_at' => $s['status'] === 'selesai' ? Carbon::parse($s['finish'])->addDays(20) : $this->statusDate->copy()->subDays(30)]);
+        }
+    }
+
+    // ---- Data khas demo; ditimpa oleh demo lain (mis. DemoSmbcSeeder)
+
+    protected function wbsTemplate(string $type): array
+    {
+        return Templates::wbs($type);
+    }
+
+    protected function riskPool(string $type): array
+    {
+        return Templates::risks($type);
+    }
+
+    protected function teamRoles(string $unit): array
+    {
+        return match ($unit) {
+            'hulu_migas' => [['Perencanaan & penjadwalan', 'Planner'], ['Pengendalian biaya', 'Cost Controller'], ['Rekayasa proses', 'Lead Process Engineer'], ['Rekayasa pengeboran', 'Drilling Engineer'], ['Pengadaan & kontrak', 'Procurement Lead'], ['QA/QC', 'QA/QC Lead'], ['HSSE', 'HSSE Lead'], ['Geologi & geofisika', 'Subsurface Lead']],
+            'ketenagalistrikan' => [['Perencanaan & penjadwalan', 'Planner'], ['Pengendalian biaya', 'Cost Controller'], ['Teknik panas bumi', 'Lead Engineer'], ['Rekayasa listrik & instrumen', 'E&I Engineer'], ['Konstruksi & site manager', 'Site Manager'], ['Commissioning', 'Commissioning Lead'], ['Lingkungan & AMDAL', 'Environmental Specialist'], ['Hubungan pemerintah & perizinan', 'Permitting Lead']],
+            'tambang' => [['Perencanaan & penjadwalan', 'Planner'], ['Pengendalian biaya', 'Cost Controller'], ['Metalurgi & pengolahan mineral', 'Process Lead'], ['Konstruksi & site manager', 'Construction Manager'], ['Keselamatan konstruksi', 'HSE Lead'], ['Pengadaan & kontrak', 'Contracts Lead'], ['Lingkungan & AMDAL', 'Environmental Lead'], ['Analis keuangan proyek', 'Project Finance']],
+            default => [['Perencanaan & penjadwalan', 'PMO Analyst'], ['Analis keuangan proyek', 'Value Tracking'], ['Sistem informasi & data', 'Data & Dashboard Lead'], ['Hubungan masyarakat & PPM', 'Change Management']],
+        };
+    }
+
+    protected function issueList(): array
+    {
+        return [
+            ['Persetujuan desain dari pemilik aset tertunda', 'sedang'], ['Kekurangan izin kerja panas (hot work permit) di lokasi', 'rendah'],
+            ['Perbedaan kuantitas material antara BOQ dan gambar IFC', 'sedang'], ['Akses data dari kontraktor belum lengkap', 'rendah'],
+        ];
+    }
+
+    protected function changeList(): array
+    {
+        return [
+            ['Penambahan lingkup sistem pemantauan emisi daring', 'lingkup', 0.006, 14],
+            ['Percepatan jadwal untuk jendela cuaca', 'jadwal', 0.004, -21],
+            ['Penggantian spesifikasi material ke duplex stainless steel', 'mutu', 0.009, 10],
+            ['Penyesuaian nilai kontrak akibat eskalasi harga', 'biaya', 0.012, 0],
+            ['Penambahan paket pengadaan suku cadang commissioning', 'pengadaan', 0.003, 0],
+        ];
+    }
+
+    protected function qualityList(): array
+    {
+        return [
+            ['Tinjauan desain 60% & 90%', 'tinjauan', 'Standar desain perusahaan', 'Semua komentar kategori A ditutup'],
+            ['Inspeksi las & NDT', 'inspeksi', 'AWS D1.1 / ASME IX', 'Tingkat penolakan las < 2%'],
+            ['Factory Acceptance Test peralatan utama', 'fat', 'Spesifikasi pembelian', 'Lulus seluruh parameter uji'],
+            ['Uji hidrostatik sistem perpipaan', 'uji', 'ASME B31.3', 'Tidak ada kebocoran selama 4 jam'],
+            ['Audit sistem mutu kontraktor', 'audit', 'ISO 9001:2015', 'Tidak ada temuan mayor'],
+            ['Uji fungsi sistem kontrol (SAT)', 'uji', 'IEC 61511', 'Seluruh loop berfungsi'],
+        ];
+    }
+
+    protected function inspectors(): array
+    {
+        return ['Sri Handayani', 'Taufik Hidayat'];
+    }
+
+    /** @return array{0: array, 1: array} [umum, khusus unit] */
+    protected function stakeholderList(string $unit): array
+    {
+        $common = [
+            ['Direksi MedcoEnergi', 'Direksi', 'PT Medco Energi Internasional Tbk', 'internal', 5, 5, 'pendukung', 'Laporan bulanan & tinjauan gerbang'],
+            ['Tim Operasi Aset', 'Asset Manager', 'MedcoEnergi', 'internal', 3, 5, 'pendukung', 'Keterlibatan sejak desain untuk kesiapan operasi'],
+            ['Masyarakat sekitar lokasi', 'Tokoh masyarakat', 'Desa/kecamatan sekitar', 'masyarakat', 2, 4, 'netral', 'Sosialisasi, PPM, rekrutmen tenaga lokal'],
+            ['Kontraktor utama', 'Project Director', 'Kontraktor EPC/EPCI', 'pemasok', 3, 4, 'pendukung', 'Rapat kemajuan mingguan'],
+        ];
+        $specific = match ($unit) {
+            'hulu_migas' => [['SKK Migas', 'Kepala Divisi Proyek', 'SKK Migas', 'regulator', 5, 4, 'netral', 'Pelaporan rutin, persetujuan AFE & POD'], ['Mitra PSC', 'Wakil mitra', 'Mitra hak partisipasi', 'mitra', 4, 4, 'pendukung', 'Operating committee triwulanan'], ['Pembeli gas/minyak', 'Commercial', 'Offtaker', 'pelanggan', 3, 5, 'pendukung', 'Informasi jadwal first gas/oil']],
+            'ketenagalistrikan' => [['PT PLN (Persero)', 'Divisi EBT', 'PLN', 'pelanggan', 5, 5, 'pendukung', 'Koordinasi PPA, interkoneksi & COD'], ['Ditjen EBTKE', 'Direktorat Panas Bumi', 'Kementerian ESDM', 'regulator', 4, 3, 'netral', 'Pelaporan perizinan'], ['Lender proyek', 'Agent bank', 'Sindikasi perbankan', 'mitra', 4, 4, 'netral', 'Laporan lender engineer']],
+            'tambang' => [['Kementerian ESDM (Minerba)', 'Ditjen Minerba', 'Kementerian ESDM', 'regulator', 5, 4, 'netral', 'Pelaporan RKAB & hilirisasi'], ['Pemda Sumbawa Barat', 'Bupati', 'Pemerintah Kabupaten', 'regulator', 4, 4, 'pendukung', 'Koordinasi tenaga kerja & infrastruktur'], ['PT Amman Mineral Internasional Tbk', 'Direksi', 'AMMN', 'internal', 5, 5, 'pendukung', 'Tinjauan proyek bulanan']],
+            default => [['Manajemen aset Medco Power', 'GM Aset', 'Medco Power', 'internal', 4, 5, 'netral', 'Lokakarya inisiatif & coaching'], ['Konsultan transformasi', 'Partner', 'Konsultan internasional', 'pemasok', 3, 4, 'pendukung', 'Rapat PMO mingguan']],
+        };
+
+        return [$common, $specific];
+    }
+
+    protected function contractSets(): array
+    {
+        return [
+            'offshore' => [['NRL', 'Kontrak EPCI fasilitas lepas pantai', 'epci', 0.42], ['SDS', 'Jasa pengeboran & rig jack-up', 'unit_price', 0.22], ['KPI', 'Pengadaan pipa, katup & wellhead', 'lump_sum', 0.10], ['LOG', 'Logistik marine & kapal pendukung', 'tm', 0.05]],
+            'drilling' => [['SDS', 'Sewa rig & jasa pengeboran terpadu', 'unit_price', 0.55], ['KPI', 'Casing, tubing & wellhead', 'lump_sum', 0.18], ['LOG', 'Logistik & supply vessel', 'tm', 0.06]],
+            'onshore' => [['KSB', 'EPC fasilitas produksi gas', 'lump_sum', 0.38], ['SDS', 'Jasa pengeboran sumur pengembangan', 'unit_price', 0.25], ['KPI', 'Pipa transmisi & material', 'lump_sum', 0.12], ['ENV', 'Studi AMDAL & pemantauan lingkungan', 'lump_sum', 0.01]],
+            'geothermal' => [['GEO', 'EPC pembangkit & SAGS', 'epci', 0.45], ['SDS', 'Pengeboran sumur produksi & reinjeksi', 'unit_price', 0.22], ['TRF', 'Gardu induk & SUTT 150 kV', 'lump_sum', 0.07]],
+            'ccgt' => [['TRB', 'Pasokan HRSG & turbin uap', 'lump_sum', 0.40], ['KSB', 'Konstruksi sipil & instalasi', 'unit_price', 0.20], ['ELK', 'Integrasi DCS & instrumentasi', 'lump_sum', 0.06]],
+            'solar' => [['SLR', 'EPC PLTS 25 MWp', 'epci', 0.70], ['TRF', 'Trafo & gardu hubung', 'lump_sum', 0.08]],
+            'exploration' => [['SDS', 'Pengeboran eksplorasi panas bumi', 'unit_price', 0.45], ['KSB', 'Jalan akses & wellpad', 'unit_price', 0.15], ['ENV', 'UKL-UPL & survei geosains', 'lump_sum', 0.06]],
+            'mining' => [['MIN', 'Pasokan SAG mill, ball mill & flotasi', 'lump_sum', 0.28], ['KSB', 'Pekerjaan tanah, fondasi & struktur', 'unit_price', 0.22], ['ELK', 'Kelistrikan & sistem kontrol pabrik', 'lump_sum', 0.10], ['LOG', 'Logistik heavy-lift', 'tm', 0.03]],
+            'study' => [['MIN', 'Konsultan FEED pabrik pengolahan', 'cost_plus', 0.30], ['ENV', 'Studi ANDAL & konsultasi publik', 'lump_sum', 0.08], ['SDS', 'Pengeboran inti konfirmasi', 'unit_price', 0.25]],
+            'transformation' => [['MGT', 'Konsultan transformasi operasional', 'tm', 0.55], ['ELK', 'Platform dasbor KPI', 'lump_sum', 0.10]],
+        ];
+    }
+
+    protected function reportAchievement(): string
+    {
+        return 'Pekerjaan paket kerja berjalan sesuai rencana kerja bulanan; tidak ada insiden LTI.';
+    }
+
+    protected function lessonList(string $code): array
+    {
+        return match ($code) {
             'NTN-TRB' => [
                 ['integrasi', 'positif', 'Model EPCI terpadu dari FEED hingga Ready For Start Up', 'Strategi Rekayasa, Pengadaan, Konstruksi dan Pemasangan terpadu mempercepat pengembangan lapangan marginal.', 'Gunakan model yang sama untuk WHP tanpa awak berikutnya.'],
                 ['biaya', 'positif', 'Penghematan 20% pengadaan & fabrikasi jacket', 'Standarisasi desain jacket dan negosiasi paket menghasilkan penghematan rata-rata 20% dan 13% pada barang long lead.', 'Jadikan desain jacket standar sebagai referensi estimasi.'],
@@ -716,9 +802,5 @@ class DemoMedcoSeeder extends Seeder
                 ['sdm', 'perbaikan', 'Rencana suksesi tenaga ahli commissioning', 'Persaingan SDM antarproyek menunda mobilisasi tim commissioning.', 'Kontrak vendor representatif lebih awal.'],
             ],
         };
-        foreach ($list as [$area, $kind, $title, $desc, $rec]) {
-            Models\LessonLearned::create(['project_id' => $p->id, 'knowledge_area' => $area, 'kind' => $kind, 'title' => $title, 'description' => $desc, 'recommendation' => $rec,
-                'recorded_at' => $s['status'] === 'selesai' ? Carbon::parse($s['finish'])->addDays(20) : $this->statusDate->copy()->subDays(30)]);
-        }
     }
 }

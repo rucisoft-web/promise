@@ -23,7 +23,7 @@ class HealthByUnitChart extends BaseChart
         $urls = array_map(fn ($label) => self::listUrl(ProjectResource::class, 'business_unit', array_search($label, Pmbok::BUSINESS_UNITS)), array_keys($h));
 
         return [
-            'labels' => array_keys($h),
+            'labels' => array_map(fn ($l) => explode("\n", wordwrap($l, 18)), array_keys($h)),
             'datasets' => [
                 ['label' => 'Hijau', 'data' => array_column($h, 'hijau'), 'backgroundColor' => '#2E7D4F', 'borderRadius' => 4, 'urls' => $urls],
                 ['label' => 'Kuning', 'data' => array_column($h, 'kuning'), 'backgroundColor' => '#D98E04', 'borderRadius' => 4, 'urls' => $urls],
@@ -34,6 +34,6 @@ class HealthByUnitChart extends BaseChart
 
     protected function getOptions(): array
     {
-        return $this->legendBottom(['indexAxis' => 'y', 'aspectRatio' => 1.25, 'scales' => ['x' => ['stacked' => true, 'ticks' => ['precision' => 0]], 'y' => ['stacked' => true]]]);
+        return $this->legendBottom(['indexAxis' => 'y', 'aspectRatio' => 0.9, 'scales' => ['x' => ['stacked' => true, 'ticks' => ['precision' => 0]], 'y' => ['stacked' => true, 'ticks' => ['autoSkip' => false, 'font' => ['size' => 11]]]]]);
     }
 }

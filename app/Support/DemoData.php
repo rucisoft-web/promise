@@ -12,18 +12,18 @@ class DemoData
 {
     public const TITLE = 'DATA DEMO, bukan proyek yang sesungguhnya.';
 
-    public const NOTICE = 'Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan.';
+    public const NOTICE = 'Seluruh proyek contoh hanya untuk keperluan pembelajaran dan peragaan fitur Promise. Nama proyek mengacu pada Laporan Tahunan 2025 PT Medco Energi Internasional Tbk dan PT Bank SMBC Indonesia Tbk, tetapi jadwal, anggaran, progres, risiko, kontrak, vendor, personel, dan dokumen adalah simulasi, bukan data resmi perusahaan tersebut.';
 
     public const SHORT = 'DATA DEMO - bukan proyek yang sesungguhnya, hanya untuk keperluan pembelajaran.';
 
-    /** Kode proyek pertama dari DemoMedcoSeeder sebagai penanda data demo terpasang */
-    public const MARKER_CODE = 'NTN-FRL';
+    /** Kode proyek penanda tiap demo (DemoMedcoSeeder, DemoSmbcSeeder) */
+    public const MARKER_CODES = ['NTN-FRL', 'SMB-CBS'];
 
     public static function present(): bool
     {
         return once(function () {
             try {
-                return Schema::hasTable('projects') && Project::where('code', self::MARKER_CODE)->exists();
+                return Schema::hasTable('projects') && Project::whereIn('code', self::MARKER_CODES)->exists();
             } catch (\Throwable) {
                 return false;
             }

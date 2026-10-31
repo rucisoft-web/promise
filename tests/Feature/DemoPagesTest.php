@@ -19,7 +19,8 @@ class DemoPagesTest extends TestCase
         Storage::fake(Document::DISK);
         $this->seed(DatabaseSeeder::class);
 
-        $this->assertSame(17, Project::count());
+        $this->assertSame(29, Project::count());
+        $this->assertSame(12, Project::where('code', 'like', 'SMB-%')->count());
         $this->assertSame(0, WbsItem::where('level', '>', 2)->count());
         $this->assertGreaterThan(250, WbsItem::where('level', 2)->count());
         $this->assertEqualsCanonicalizing(['FS', 'SS', 'FF', 'SF'], TaskDependency::distinct()->pluck('type')->all());
